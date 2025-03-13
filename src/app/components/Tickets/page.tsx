@@ -1,15 +1,36 @@
 import React, { useEffect, useState } from "react";
 import TicketFilter from "../TicketFilterDisplay/page";
 
-const Tickets = () => {
-  const [ticketStats, setTicketStats] = useState({
+type Ticket = {
+  id: string;
+  category: string;
+  status: "NEW" | "OPEN" | "CLOSED";
+  subject: string;
+  content: string;
+  priority: "Critical" | "High" | "Medium" | "Low";
+  attachments: string[];
+};
+
+type TicketStats = {
+  all: number;
+  new: number;
+  open: number;
+  closed: number;
+};
+
+const Tickets: React.FC = () => {
+  const [ticketStats, setTicketStats] = useState<TicketStats>({
     all: 0,
     new: 0,
     open: 0,
     closed: 0,
   });
 
-  const data = [
+  const [filter, setFilter] = useState<"all" | "new" | "open" | "closed">("all");
+  const [selectedTicket, setSelectedTicket] = useState<Ticket | null>(null);
+  const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
+
+  const data: Ticket[] = [
     {
       id: "1",
       category: "Technical",
@@ -37,69 +58,6 @@ const Tickets = () => {
       priority: "Low",
       attachments: ["profile_update_request.pdf"],
     },
-    {
-      id: "4",
-      category: "Technical",
-      status: "OPEN",
-      subject: "supportteam@example.com",
-      content: "The system crashes when I upload files larger than 10MB",
-      priority: "Critical",
-      attachments: ["crash_report.json", "upload_test_file.zip"],
-    },
-    {
-      id: "5",
-      category: "Sales",
-      status: "NEW",
-      subject: "salesqueries@example.com",
-      content: "I would like more details about your product pricing",
-      priority: "Low",
-      attachments: [],
-    },
-    {
-      id: "6",
-      category: "Technical",
-      status: "CLOSED",
-      subject: "techsupport@example.com",
-      content: "The issue with the server timeout has been resolved",
-      priority: "Medium",
-      attachments: ["resolution_steps.docx"],
-    },
-    {
-      id: "7",
-      category: "Account",
-      status: "OPEN",
-      subject: "user5678@example.com",
-      content: "I'm unable to reset my password despite following the instructions",
-      priority: "High",
-      attachments: ["password_reset_error.png"],
-    },
-    {
-      id: "8",
-      category: "Billing",
-      status: "CLOSED",
-      subject: "billingteam@example.com",
-      content: "I was charged twice for the same transaction",
-      priority: "High",
-      attachments: ["transaction_details.pdf"],
-    },
-    {
-      id: "9",
-      category: "Technical",
-      status: "OPEN",
-      subject: "developer@example.com",
-      content: "The API documentation was missing endpoint details",
-      priority: "Low",
-      attachments: ["api_feedback.docx"],
-    },
-    {
-      id: "10",
-      category: "Sales",
-      status: "NEW",
-      subject: "clientrequests@example.com",
-      content: "Can you provide a demo of your software?",
-      priority: "Medium",
-      attachments: ["demo_request_form.pdf"],
-    },
   ];
 
   useEffect(() => {
@@ -120,14 +78,33 @@ const Tickets = () => {
     calculateTicketStats();
   }, []);
 
+  const filteredData = data.filter((ticket) => {
+    if (filter === "all") return true;
+    return ticket.status.toLowerCase() === filter;
+  });
+
+  const openModal = (ticket: Ticket) => {
+    setSelectedTicket(ticket);
+    setIsModalOpen(true);
+  };
+
+  const closeModal = () => {
+    setSelectedTicket(null);
+    setIsModalOpen(false);
+  };
+
   return (
     <div className="p-4">
       <h1 className="text-xl font-bold mb-4 flex justify-center">Tickets</h1>
       <div className="mt-4 px-6 flex justify-center">
-        <TicketFilter ticketStats={ticketStats} />
+        <TicketFilter
+          ticketStats={ticketStats}
+          onFilterChange={setFilter}
+          selectedFilter={filter}
+        />
       </div>
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-        {data.map((ticket) => (
+        {filteredData.map((ticket) => (
           <div
             key={ticket.id}
             className="border p-4 rounded-lg shadow-md bg-white space-y-2"
@@ -180,16 +157,61 @@ const Tickets = () => {
               </div>
             )}
             <div className="flex space-x-2">
-              <button className="bg-blue-500 text-white px-3 py-1 rounded hover:bg-blue-600">
+              <button
+                className="bg-blue-500 text-white px-3 py-1 rounded hover:bg-blue-600"
+                onClick={() => openModal(ticket)}
+              >
                 View
               </button>
-              <button className="bg-green-500 text-white px-3 py-1 rounded hover:bg-green-600">
+              <button
+                className="bg-green-500 text-white px-3 py-1 rounded hover:bg-green-600"
+                onClick={() => openModal(ticket)}
+              >
                 Resolve
               </button>
             </div>
           </div>
         ))}
       </div>
+
+      {/* Modal */}
+      {isModalOpen && selectedTicket && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center">
+          <div className="bg-white rounded-lg p-6 max-w-lg w-full">
+            <h2 className="text-xl font-bold mb-4">{selectedTicket.category}</h2>
+            <p>
+              <span className="font-semibold">Status:</span> {selectedTicket.status}
+            </p>
+            <p>
+              <span className="font-semibold">Priority:</span> {selectedTicket.priority}
+            </p>
+            <p>
+              <span className="font-semibold">Subject:</span> {selectedTicket.subject}
+            </p>
+            <p>
+              <span className="font-semibold">Content:</span> {selectedTicket.content}
+            </p>
+            {selectedTicket.attachments.length > 0 && (
+              <div>
+                <span className="font-semibold">Attachments:</span>
+                <ul className="list-disc pl-5">
+                  {selectedTicket.attachments.map((attachment, index) => (
+                    <li key={index}>{attachment}</li>
+                  ))}
+                </ul>
+              </div>
+            )}
+            <div className="mt-4 flex justify-end space-x-2">
+              <button
+                className="bg-gray-500 text-white px-4 py-2 rounded hover:bg-gray-600"
+                onClick={closeModal}
+              >
+                Close
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 };
