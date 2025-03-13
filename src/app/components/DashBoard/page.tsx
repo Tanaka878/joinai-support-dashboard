@@ -1,41 +1,22 @@
 'use client';
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import NavBar from '../NavBar/page';
 import SideNav from '../SideNav/page';
-import TicketFilter from '../TicketFilterDisplay/page';
 import Tickets from '../Tickets/page';
 
 const Dashboard = () => {
   const [isSidebarOpen, setSidebarOpen] = useState(false);
-  const [ticketStats, setTicketStats] = useState({
-    all: 0,
-    new: 0,
-    open: 0,
-  });
+  
 
   // Simulating a fetch call for ticket statistics
-  useEffect(() => {
-    const fetchTicketStats = () => {
-      const data = {
-        all: 50,
-        new: 15,
-        open: 10,
-      };
-      setTicketStats(data);
-    };
-
-    fetchTicketStats();
-  }, []);
+ 
 
   return (
     <div className="h-screen flex flex-col">
       {/* Navbar at the top */}
       <NavBar />
 
-      {/* Ticket Filters */}
-      <div className="mt-4 px-6 flex justify-center">
-        <TicketFilter ticketStats={ticketStats}/>
-      </div>
+      
 
       {/* Main Content */}
       <div className="flex flex-1">

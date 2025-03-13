@@ -1,6 +1,14 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
+import TicketFilter from "../TicketFilterDisplay/page";
 
 const Tickets = () => {
+  const [ticketStats, setTicketStats] = useState({
+    all: 0,
+    new: 0,
+    open: 0,
+    closed: 0,
+  });
+
   const data = [
     {
       id: "1",
@@ -94,9 +102,30 @@ const Tickets = () => {
     },
   ];
 
+  useEffect(() => {
+    const calculateTicketStats = () => {
+      const allTickets = data.length;
+      const newTickets = data.filter((ticket) => ticket.status === "NEW").length;
+      const openTickets = data.filter((ticket) => ticket.status === "OPEN").length;
+      const closedTickets = data.filter((ticket) => ticket.status === "CLOSED").length;
+
+      setTicketStats({
+        all: allTickets,
+        new: newTickets,
+        open: openTickets,
+        closed: closedTickets,
+      });
+    };
+
+    calculateTicketStats();
+  }, []);
+
   return (
     <div className="p-4">
       <h1 className="text-xl font-bold mb-4 flex justify-center">Tickets</h1>
+      <div className="mt-4 px-6 flex justify-center">
+        <TicketFilter ticketStats={ticketStats} />
+      </div>
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
         {data.map((ticket) => (
           <div
@@ -153,9 +182,6 @@ const Tickets = () => {
             <div className="flex space-x-2">
               <button className="bg-blue-500 text-white px-3 py-1 rounded hover:bg-blue-600">
                 View
-              </button>
-              <button className="bg-gray-500 text-white px-3 py-1 rounded hover:bg-gray-600">
-                Close
               </button>
               <button className="bg-green-500 text-white px-3 py-1 rounded hover:bg-green-600">
                 Resolve
