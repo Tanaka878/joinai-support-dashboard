@@ -40,7 +40,6 @@ const Dashboard = () => {
         <div
           className={`ml-${isSidebarOpen ? '64' : '16'} flex-1 bg-gray-100 p-6 transition-all duration-300`}
         >
-          <h1 className="text-2xl font-bold text-gray-800 flex justify-center">Dashboard Content</h1>
           <div className="mt-4 text-gray-600">
             <Tickets/>
 
