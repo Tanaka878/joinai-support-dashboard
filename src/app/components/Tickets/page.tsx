@@ -101,11 +101,44 @@ const Tickets: React.FC = () => {
     setIsModalOpen(false);
   };
 
-  const resolveTicket = (ticketId: string) => {
-    console.log(`Resolving ticket ${ticketId}`);
-    if (isModalOpen) {
-      closeModal();
+  // Add this function to handle ticket status updates
+  const updateTicketStatus = async (ticketId: string, newStatus: "NEW" | "OPEN" | "CLOSED") => {
+    try {
+      setIsLoading(true);
+      // Call your backend API to update ticket status
+      const response = await fetch(`${BASE_URL}/admin/updateStatus/${ticketId}`, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ status: newStatus }),
+      });
+      
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+      
+      // Refresh the tickets list after update
+      fetchTickets();
+      
+      if (isModalOpen) {
+        closeModal();
+      }
+    } catch (error) {
+      console.error("Error updating ticket status:", error);
+    } finally {
+      setIsLoading(false);
     }
+  };
+
+  // Updated resolve ticket function
+  const resolveTicket = (ticketId: string) => {
+    updateTicketStatus(ticketId, "CLOSED");
+  };
+
+  // Function to reopen a closed ticket
+  const reopenTicket = (ticketId: string) => {
+    updateTicketStatus(ticketId, "OPEN");
   };
 
   const formatDate = (dateString: string) => {
@@ -190,52 +223,159 @@ const Tickets: React.FC = () => {
                 </span>
               </div>
               <h2 className="font-bold text-lg">{ticket.subject}</h2>
-              <p className="text-gray-600">{ticket.content}</p>
-              <div
-                className={`inline-block px-3 py-1 rounded-full text-sm font-semibold ${getPriorityColor(
-                  ticket.priority
-                )}`}
-              >
-                {ticket.priority}
+              <p className="text-gray-600 line-clamp-2">{ticket.content}</p>
+              <div className="flex justify-between items-center">
+                <div
+                  className={`inline-block px-3 py-1 rounded-full text-sm font-semibold ${getPriorityColor(
+                    ticket.priority
+                  )}`}
+                >
+                  {ticket.priority}
+                </div>
+                <div className="text-gray-500 text-sm">
+                  {formatDate(ticket.createdAt)}
+                </div>
               </div>
-              <div className="text-gray-500 text-sm">
-                Created: {formatDate(ticket.createdAt)}
+              
+              {/* Action buttons based on status */}
+              <div className="flex space-x-2 mt-4">
+                <button
+                  className="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600"
+                  onClick={() => openModal(ticket)}
+                >
+                  View Details
+                </button>
+                
+                {(ticket.status === "NEW" || ticket.status === "OPEN") && (
+                  <button
+                    className="px-4 py-2 bg-green-500 text-white rounded-lg hover:bg-green-600"
+                    onClick={() => resolveTicket(ticket.id)}
+                  >
+                    Resolve
+                  </button>
+                )}
+                
+                {ticket.status === "CLOSED" && (
+                  <button
+                    className="px-4 py-2 bg-yellow-500 text-white rounded-lg hover:bg-yellow-600"
+                    onClick={() => reopenTicket(ticket.id)}
+                  >
+                    Reopen
+                  </button>
+                )}
               </div>
-              <button
-                className="mt-4 px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600"
-                onClick={() => openModal(ticket)}
-              >
-                View Details
-              </button>
             </div>
           ))}
         </div>
       )}
 
-      {/* Modal */}
+      {/* Enhanced Modal with detailed ticket information */}
       {isModalOpen && selectedTicket && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
+        <div className="fixed inset-0 bg-blue-100 bg-opacity-50 flex items-center justify-center z-50 p-4">
           <div className="bg-white rounded-lg p-6 max-w-lg w-full max-h-[90vh] overflow-y-auto">
-            <h2 className="text-lg font-bold mb-4">{selectedTicket.subject}</h2>
-            <p>{selectedTicket.content}</p>
-            <p className="text-sm text-gray-500 mt-4">
-              Created: {formatDate(selectedTicket.createdAt)}
-            </p>
-            <p className="text-sm text-gray-500">
-              Updated: {formatDate(selectedTicket.updatedAt)}
-            </p>
-            <button
-              className="mt-4 px-4 py-2 bg-red-500 text-white rounded-lg hover:bg-red-600"
-              onClick={() => resolveTicket(selectedTicket.id)}
-            >
-              Resolve Ticket
-            </button>
-            <button
-              className="mt-2 px-4 py-2 bg-gray-500 text-white rounded-lg hover:bg-gray-600"
-              onClick={closeModal}
-            >
-              Close
-            </button>
+            {/* Header with subject and status */}
+            <div className="flex justify-between items-center mb-4 pb-3 border-b">
+              <h2 className="text-xl font-bold">{selectedTicket.subject}</h2>
+              <span
+                className={`inline-block px-3 py-1 rounded-full text-sm font-semibold ${getStatusColor(
+                  selectedTicket.status
+                )}`}
+              >
+                {selectedTicket.status}
+              </span>
+            </div>
+            
+            {/* Ticket details */}
+            <div className="space-y-4">
+              {/* Metadata grid */}
+              <div className="grid grid-cols-2 gap-4 bg-gray-50 p-4 rounded-lg">
+                <div>
+                  <p className="text-sm text-gray-500">ID</p>
+                  <p className="font-mono text-sm">{selectedTicket.id}</p>
+                </div>
+                <div>
+                  <p className="text-sm text-gray-500">Category</p>
+                  <p>{selectedTicket.category}</p>
+                </div>
+                <div>
+                  <p className="text-sm text-gray-500">Priority</p>
+                  <span
+                    className={`inline-block px-2 py-1 rounded-full text-xs font-semibold ${getPriorityColor(
+                      selectedTicket.priority
+                    )}`}
+                  >
+                    {selectedTicket.priority}
+                  </span>
+                </div>
+                <div>
+                  <p className="text-sm text-gray-500">Assigned To</p>
+                  <p>{selectedTicket.assignedTo || "Unassigned"}</p>
+                </div>
+                <div>
+                  <p className="text-sm text-gray-500">Created</p>
+                  <p>{formatDate(selectedTicket.createdAt)}</p>
+                </div>
+                <div>
+                  <p className="text-sm text-gray-500">Updated</p>
+                  <p>{formatDate(selectedTicket.updatedAt)}</p>
+                </div>
+              </div>
+              
+              {/* Content */}
+              <div>
+                <h3 className="font-medium text-gray-700 mb-2">Description</h3>
+                <div className="bg-gray-50 p-4 rounded-lg whitespace-pre-wrap">
+                  {selectedTicket.content}
+                </div>
+              </div>
+              
+              {/* Attachments */}
+              {selectedTicket.attachments && selectedTicket.attachments.length > 0 && (
+                <div>
+                  <h3 className="font-medium text-gray-700 mb-2">Attachments</h3>
+                  <div className="bg-gray-50 p-4 rounded-lg">
+                    
+                  </div>
+                </div>
+              )}
+
+            <div>
+              <input
+                type="text"
+                className="w-full h-10 px-4 rounded-md border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 shadow-sm text-sm"
+                placeholder="Enter text here"
+              />
+            </div>
+
+            </div>
+            
+            {/* Action buttons */}
+            <div className="flex space-x-2 mt-6">
+              {(selectedTicket.status === "NEW" || selectedTicket.status === "OPEN") && (
+                <button
+                  className="px-4 py-2 bg-green-500 text-white rounded-lg hover:bg-green-600"
+                  onClick={() => resolveTicket(selectedTicket.id)}
+                >
+                  Resolve Ticket
+                </button>
+              )}
+              
+              {selectedTicket.status === "CLOSED" && (
+                <button
+                  className="px-4 py-2 bg-yellow-500 text-white rounded-lg hover:bg-yellow-600"
+                  onClick={() => reopenTicket(selectedTicket.id)}
+                >
+                  Reopen Ticket
+                </button>
+              )}
+              
+              <button
+                className="px-4 py-2 bg-gray-500 text-white rounded-lg hover:bg-gray-600"
+                onClick={closeModal}
+              >
+                Close
+              </button>
+            </div>
           </div>
         </div>
       )}
