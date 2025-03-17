@@ -44,7 +44,7 @@ const Login = () => {
   // Handle form submission
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    router.push("/components/Admin/DashBoard")
+    router.push("/components/DashBoard")
     /* setLoading(true);
     setError('');
 

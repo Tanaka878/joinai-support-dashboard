@@ -3,9 +3,11 @@ import React, { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { FaSignOutAlt ,FaChartBar, FaUser} from 'react-icons/fa';
 import NavBar from '../../NavBar/page';
-import SideNav from '../../SideNav/page';
 import Tickets from '../../Tickets/page';
+import SideNav from '../AdminNavigation/page';
 
+
+//component for admin dashboard
 const Dashboard = () => {
   const [isSidebarOpen, setSidebarOpen] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -28,20 +30,8 @@ const Dashboard = () => {
       {/* Main Content */}
       <div className="flex flex-1">
         {/* Sidebar */}
-        <div
-          className={`fixed left-0 top-16 h-[calc(100%-4rem)] ${
-            isSidebarOpen ? 'w-64' : 'w-16'
-          } bg-gray-800 text-white transition-all duration-300`}
-        >
-          {/* Toggle Button */}
-          <button
-            onClick={() => setSidebarOpen(!isSidebarOpen)}
-            className="absolute -right-4 top-4 bg-gray-600 text-white p-2 rounded-full shadow-md focus:outline-none"
-          >
-            {isSidebarOpen ? '<' : '>'}
-          </button>
-          <SideNav isSidebarOpen={isSidebarOpen} />
-        </div>
+        <SideNav isSidebarOpen={false}/>
+        
 
         {/* Modal */}
         {isModalOpen && (
