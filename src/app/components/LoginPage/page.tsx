@@ -44,7 +44,8 @@ const Login = () => {
   // Handle form submission
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setLoading(true);
+    router.push("/components/DashBoard")
+    /* setLoading(true);
     setError('');
 
     const credentials = { email, password };
@@ -76,7 +77,7 @@ const Login = () => {
       setError('Invalid credentials. Please try again.');
     } finally {
       setLoading(false);
-    }
+    } */
   };
 
   // Navigation handlers
@@ -130,7 +131,8 @@ const Login = () => {
                 name="email"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                className="w-full p-3 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500 slide-in opacity-0 translate-x-full"
+                className="w-full p-3 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500
+                 focus:border-blue-500 slide-in opacity-0 translate-x-full text-black"
                 required
                 disabled={loading}
               />

@@ -1,8 +1,8 @@
 'use client'
 import React, { useState } from 'react';
-import NavBar from '../NavBar/page';
-import SideNav from '../SideNav/page';
-import Tickets from '../Tickets/page';
+import NavBar from '../../NavBar/page';
+import SideNav from '../../SideNav/page';
+import Tickets from '../../Tickets/page';
 
 
 const Dashboard = () => {

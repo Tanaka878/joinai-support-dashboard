@@ -8,7 +8,7 @@ type Ticket = {
   status: "NEW" | "OPEN" | "CLOSED";
   subject: string;
   content: string;
-  priority: "Critical" | "High" | "Medium" | "Low";
+  priority: "CRITICAL" | "HIGH" | "MEDIUM" | "LOW";
   attachments: string[];
   createdAt: string;
   updatedAt: string;
@@ -101,11 +101,9 @@ const Tickets: React.FC = () => {
     setIsModalOpen(false);
   };
 
-  // Add this function to handle ticket status updates
   const updateTicketStatus = async (ticketId: string, newStatus: "NEW" | "OPEN" | "CLOSED") => {
     try {
       setIsLoading(true);
-      // Call your backend API to update ticket status
       const response = await fetch(`${BASE_URL}/admin/updateStatus/${ticketId}`, {
         method: "PUT",
         headers: {
@@ -131,12 +129,10 @@ const Tickets: React.FC = () => {
     }
   };
 
-  // Updated resolve ticket function
   const resolveTicket = (ticketId: string) => {
     updateTicketStatus(ticketId, "CLOSED");
   };
 
-  // Function to reopen a closed ticket
   const reopenTicket = (ticketId: string) => {
     updateTicketStatus(ticketId, "OPEN");
   };
