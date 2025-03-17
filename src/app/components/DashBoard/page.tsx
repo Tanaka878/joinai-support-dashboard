@@ -3,14 +3,22 @@ import React, { useState } from 'react';
 import NavBar from '../NavBar/page';
 import SideNav from '../SideNav/page';
 import Tickets from '../Tickets/page';
+import { useRouter } from 'next/navigation';
+import { FaSignOutAlt ,FaChartBar, FaUser} from 'react-icons/fa';
 
 const Dashboard = () => {
   const [isSidebarOpen, setSidebarOpen] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isNotificationTabOpen, setIsNotificationTabOpen] = useState(false);
+  const router = useRouter();
 
   const toggleModal = () => setIsModalOpen(!isModalOpen);
   const toggleNotifications = () => setIsNotificationTabOpen(!isNotificationTabOpen);
+
+  function Logout(): void {
+    router.push("/components/LoginPage");
+    
+  }
 
   return (
     <div className="h-screen flex flex-col">
@@ -47,24 +55,28 @@ const Dashboard = () => {
                 <li>
                   <button
                     type="button"
-                    className="w-full text-left px-4 py-2 hover:bg-gray-100 rounded-md text-gray-800"
+                    className="w-full text-left px-4 py-2 flex items-center gap-2 hover:bg-gray-100 rounded-md text-gray-800"
                   >
+                    <FaUser/>
                     Account Settings
                   </button>
                 </li>
                 <li>
                   <button
                     type="button"
-                    className="w-full text-left px-4 py-2 hover:bg-gray-100 rounded-md text-gray-800"
+                    className="w-full text-left px-4 py-2 flex items-center gap-2 hover:bg-gray-100 rounded-md text-gray-800"
                   >
+                    <FaChartBar/>
                     Statistics
                   </button>
                 </li>
                 <li>
                   <button
+                  onClick={Logout}
                     type="button"
-                    className="w-full text-left px-4 py-2 hover:bg-gray-100 rounded-md text-red-500"
+                    className="w-full text-left px-4 py-2 flex items-center gap-2 hover:bg-gray-100 rounded-md text-red-500"
                   >
+                    <FaSignOutAlt/>
                     Logout
                   </button>
                 </li>
