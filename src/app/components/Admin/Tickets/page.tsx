@@ -16,43 +16,61 @@ const AgentDataComponent: React.FC = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
+  const fetchAgents = async () => {
+    try {
+      const token = localStorage.getItem("authToken");
+      if (!token) {
+        throw new Error("No token found");
+      }
 
- const fetchAgents = async () => {
-  try {
-    const token = localStorage.getItem("authToken"); // Example of fetching a token from local storage
-    if (!token) {
-      throw new Error("No token found");
+      const response = await fetch(`${BASE_URL}/admin/getAgents`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ token }),
+      });
+
+      if (!response.ok) {
+        throw new Error("Failed to fetch agents");
+      }
+
+      const data: AgentData[] = await response.json();
+      setAgents(data);
+    } catch (err) {
+      console.error(err);
+    } finally {
+      setLoading(false);
     }
+  };
 
-    const response = await fetch(`${BASE_URL}/admin/getAgents`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ token }),
-    });
+  const handleEdit = async (admin: AgentData) => {
+    try {
+      const token = localStorage.getItem("authToken");
+      if (!token) {
+        throw new Error("No token found");
+      }
 
-    if (!response.ok) {
-      throw new Error("Failed to fetch agents");
+      const response = await fetch(`${BASE_URL}/admin/editProfile`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ token, admin }),
+      });
+
+      if (!response.ok) {
+        throw new Error("Failed to edit admin profile");
+      }
+
+      const updatedAdmin: AgentData = await response.json();
+      console.log("Admin profile updated successfully:", updatedAdmin);
+    } catch (err) {
+      console.error(err);
     }
-
-    const data: AgentData[] = await response.json();
-    setAgents(data);
-  } catch (err) {
-    console.error(err);
-  } finally {
-    setLoading(false);
-  }
-};
-
-  
-  const handleEdit = (id: number) => {
-    console.log(`Edit Admin with ID: ${id}`);
-    // Add edit functionality here
   };
 
   const handleDelete = async (id: number) => {
-    console.log(`Delete Admin with ID: ${id}`);
     try {
       const response = await fetch(`${BASE_URL}/admins/${id}`, {
         method: "DELETE",
@@ -63,7 +81,7 @@ const AgentDataComponent: React.FC = () => {
       setAgents(agents.filter((agent) => agent.id !== id));
     } catch (err) {
       console.log(err);
-      setError("Failed to delete agent")
+      setError("Failed to delete agent");
     }
   };
 
@@ -105,7 +123,7 @@ const AgentDataComponent: React.FC = () => {
               <td className="border border-gray-300 px-4 py-2">{agent.country}</td>
               <td className="border border-gray-300 px-4 py-2">
                 <button
-                  onClick={() => handleEdit(agent.id)}
+                  onClick={() => handleEdit(agent)}
                   className="bg-blue-500 text-white px-3 py-1 rounded-lg hover:bg-blue-600 mr-2"
                 >
                   Edit
