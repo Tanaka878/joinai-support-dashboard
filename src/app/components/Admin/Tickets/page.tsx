@@ -1,3 +1,4 @@
+import BASE_URL from "@/app/config/api/api";
 import React, { useEffect, useState } from "react";
 
 interface AgentData {
@@ -15,21 +16,36 @@ const AgentDataComponent: React.FC = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
-  const fetchAgents = async () => {
-    try {
-      const response = await fetch("http://localhost:8080/getAgents");
-      if (!response.ok) {
-        throw new Error("Failed to fetch agents");
-      }
-      const data: AgentData[] = await response.json();
-      setAgents(data);
-    } catch (err) {
-      console.log(err)
-    } finally {
-      setLoading(false);
-    }
-  };
 
+ const fetchAgents = async () => {
+  try {
+    const token = localStorage.getItem("authToken"); // Example of fetching a token from local storage
+    if (!token) {
+      throw new Error("No token found");
+    }
+
+    const response = await fetch(`${BASE_URL}/admin/getAgents`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ token }),
+    });
+
+    if (!response.ok) {
+      throw new Error("Failed to fetch agents");
+    }
+
+    const data: AgentData[] = await response.json();
+    setAgents(data);
+  } catch (err) {
+    console.error(err);
+  } finally {
+    setLoading(false);
+  }
+};
+
+  
   const handleEdit = (id: number) => {
     console.log(`Edit Admin with ID: ${id}`);
     // Add edit functionality here
@@ -38,7 +54,7 @@ const AgentDataComponent: React.FC = () => {
   const handleDelete = async (id: number) => {
     console.log(`Delete Admin with ID: ${id}`);
     try {
-      const response = await fetch(`http://localhost:8080/admins/${id}`, {
+      const response = await fetch(`${BASE_URL}/admins/${id}`, {
         method: "DELETE",
       });
       if (!response.ok) {
