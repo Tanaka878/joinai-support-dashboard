@@ -70,20 +70,40 @@ const AgentDataComponent: React.FC = () => {
     }
   };
 
-  const handleDelete = async (id: number) => {
+  const handleDelete = async (admin: AgentData) => {
     try {
-      const response = await fetch(`${BASE_URL}/admins/${id}`, {
-        method: "DELETE",
-      });
-      if (!response.ok) {
-        throw new Error("Failed to delete admin");
+      const token = localStorage.getItem("authToken");
+      if (!token) {
+        throw new Error("No token found");
       }
-      setAgents(agents.filter((agent) => agent.id !== id));
+  
+      const response = await fetch(`${BASE_URL}/deleteProfile`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          token,
+          admin,
+        }), // Pass token and admin in the body
+      });
+  
+      if (!response.ok) {
+        throw new Error("Failed to delete profile");
+      }
+  
+      // Assuming the backend returns the deleted admin or success message
+      const result = await response.json();
+      console.log("Profile deleted successfully:", result);
+  
+      // Update state to reflect the deleted admin
+      setAgents(agents.filter((agent) => agent.id !== admin.id));
     } catch (err) {
-      console.log(err);
+      console.error(err);
       setError("Failed to delete agent");
     }
   };
+  
 
   useEffect(() => {
     fetchAgents();
@@ -129,7 +149,7 @@ const AgentDataComponent: React.FC = () => {
                   Edit
                 </button>
                 <button
-                  onClick={() => handleDelete(agent.id)}
+                  onClick={() => handleDelete(agent)}
                   className="bg-red-500 text-white px-3 py-1 rounded-lg hover:bg-red-600"
                 >
                   Delete
