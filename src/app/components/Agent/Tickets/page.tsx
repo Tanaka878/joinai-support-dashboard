@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import TicketFilter from "../TicketFilterDisplay/page";
+import TicketFilter from "../Agent/TicketFilterDisplay/page";
 import BASE_URL from "@/app/config/api/api";
 
 type Ticket = {

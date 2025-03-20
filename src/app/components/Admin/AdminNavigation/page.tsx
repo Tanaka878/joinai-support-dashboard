@@ -13,12 +13,16 @@ import {
 } from 'react-icons/fa';
 import { BsKanban } from 'react-icons/bs';
 import { MdDashboard, MdSettings } from 'react-icons/md';
+import { useRouter } from 'next/navigation';
+import Image from 'next/image';
 
 interface SideNavProps {
   isSidebarOpen: boolean;
 }
 
 const SideNav: React.FC<SideNavProps> = ({ isSidebarOpen }) => {
+
+  const router = useRouter();
   const navItems = [
     { 
       icon: <MdDashboard className="w-5 h-5" />, 
@@ -29,7 +33,9 @@ const SideNav: React.FC<SideNavProps> = ({ isSidebarOpen }) => {
     { 
       icon: <FaTicketAlt className="w-5 h-5" />, 
       label: 'Tickets', 
-      href: '/tickets'
+      href:'/components/Admin/Tickets'
+      
+      
     },
     { 
       icon: <FaUsers className="w-5 h-5" />, 
@@ -80,9 +86,12 @@ const SideNav: React.FC<SideNavProps> = ({ isSidebarOpen }) => {
         <div className="px-4 py-5 border-b border-gray-700">
           <div className="flex flex-col items-center">
             <div className="w-16 h-16 mb-3 relative">
-              <img 
+              <Image 
                 src="/Images/pro pic.jpg"
                 alt="Admin Profile" 
+                height={110}
+                width={110}
+
                 className="rounded-full border-2 border-blue-400 shadow-lg"
               />
               <div className="absolute bottom-0 right-0 w-3 h-3 bg-green-500 rounded-full border border-gray-800"></div>
