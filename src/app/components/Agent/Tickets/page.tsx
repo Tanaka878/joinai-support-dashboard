@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
-import TicketFilter from "../Agent/TicketFilterDisplay/page";
 import BASE_URL from "@/app/config/api/api";
+import TicketFilter from "../TicketFilterDisplay/page";
 
 type Ticket = {
   id: string;

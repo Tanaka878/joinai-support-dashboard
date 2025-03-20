@@ -4,6 +4,7 @@ import { useRouter } from 'next/navigation';
 import { FaSignOutAlt ,FaChartBar, FaUser} from 'react-icons/fa';
 import SideNav from '../AdminNavigation/page';
 import NavBar from '../../Agent/NavBar/page';
+import Tickets from '../../Agent/Tickets/page';
 
 
 //component for admin dashboard

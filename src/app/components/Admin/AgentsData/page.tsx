@@ -123,7 +123,7 @@ const AgentDataComponent: React.FC = () => {
       <div className="text-2xl font-bold mb-6 text-center">Agent Details</div>
       <table className="min-w-full table-auto border-collapse border border-gray-200 shadow-lg">
         <thead>
-          <tr className="bg-gray-100">
+          <tr className="bg-gray-100 text-black">
             <th className="border border-gray-300 px-4 py-2">ID</th>
             <th className="border border-gray-300 px-4 py-2">Phone</th>
             <th className="border border-gray-300 px-4 py-2">Address</th>
