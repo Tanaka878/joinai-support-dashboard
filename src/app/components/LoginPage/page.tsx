@@ -44,14 +44,14 @@ const Login = () => {
   // Handle form submission
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    router.push("/components/Admin/Layout")
-    /* setLoading(true);
+   
+    setLoading(true);
     setError('');
 
     const credentials = { email, password };
 
     try {
-      const response = await fetch(`${BASE_URL}/api/v1/auth/authenticate/`, {
+      const response = await fetch(`${BASE_URL}/admin/authenticate/`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -67,17 +67,21 @@ const Login = () => {
 
       // Save auth data
       localStorage.setItem('token', data.token);
+     
       localStorage.setItem("email", credentials.email);
-      
-      // Navigate to dashboard
-      router.push("/components/GroupsContainer/Container");
-      
+
+      if(data.role == "ADMIN"){
+        router.push("/components/Admin/Layout");
+      }else{
+        router.push("/components/Agent/Layout");
+      }
+           
     } catch (error) {
       console.log(error)
       setError('Invalid credentials. Please try again.');
     } finally {
       setLoading(false);
-    } */
+    } 
   };
 
   // Navigation handlers
@@ -145,15 +149,14 @@ const Login = () => {
               >
                 Password
               </label>
-              <input
+              <input 
                 type="password"
                 id="password"
                 name="password"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
-                className="w-full p-3 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500 slide-in opacity-0 translate-x-full"
+                className="w-full p-3 border text-black border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500 slide-in opacity-0 translate-x-full"
                 required
-                disabled={loading}
               />
             </div>
 
@@ -167,7 +170,6 @@ const Login = () => {
             {/* Submit button */}
             <button
               type="submit"
-              disabled={loading}
               className={`w-full p-3 rounded-md transition-colors duration-200 slide-in opacity-0 translate-x-full
                 ${loading 
                   ? 'bg-blue-300 cursor-not-allowed' 
