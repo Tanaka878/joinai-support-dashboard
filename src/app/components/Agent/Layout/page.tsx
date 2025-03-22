@@ -9,8 +9,23 @@ const Layout = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isNotificationTabOpen, setIsNotificationTabOpen] = useState(false);
   
-  const toggleModal = () => setIsModalOpen(!isModalOpen);
-  const toggleNotifications = () => setIsNotificationTabOpen(!isNotificationTabOpen);
+  const toggleModal = () => {
+    setIsModalOpen((prev) => {
+      if (!prev) {
+        setIsNotificationTabOpen(false); // Close notifications if modal is opened
+      }
+      return !prev;
+    });
+  };
+  
+  const toggleNotifications = () => {
+    setIsNotificationTabOpen((prev) => {
+      if (!prev) {
+        setIsModalOpen(false); // Close modal if notifications tab is opened
+      }
+      return !prev;
+    });
+  };
   
   
 
@@ -48,17 +63,33 @@ const Layout = () => {
           aria-hidden={!isModalOpen}
         >
           {/* Modal Content */}
+          <div className="text-black bg-gray-100 p-4 rounded-xl shadow-lg space-y-4">
+            <div className="font-bold text-lg border-b pb-2">Account Settings</div>
+            <div className="text-sm text-gray-700 hover:text-blue-600 cursor-pointer">
+              Daily Stats
+            </div>
+            <div className="text-sm text-gray-700 hover:text-red-500 cursor-pointer">
+              Logout
+            </div>
+          </div>
+
         </div>
       )}
       
       {/* Notifications Tab */}
       {isNotificationTabOpen && (
-        <div
-          className="fixed top-20 right-6 z-50 w-80 bg-white shadow-lg rounded-lg overflow-hidden border border-gray-200"
-          aria-hidden={!isNotificationTabOpen}
-        >
-          {/* Notifications Content */}
-        </div>
+            <div
+            className={`fixed top-20 right-6 z-50 w-80 bg-white shadow-lg rounded-lg overflow-hidden border border-gray-200 ${
+              isNotificationTabOpen ? "opacity-100" : "opacity-0 pointer-events-none"
+            } transition-opacity duration-300`}
+            aria-hidden={!isNotificationTabOpen}
+          >
+            {/* Notifications Content */}
+            <div className="p-4 text-center text-gray-500 text-sm">
+              No Notifications
+            </div>
+          </div>
+     
       )}
     </div>
   );

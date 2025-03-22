@@ -84,14 +84,9 @@ const Login = () => {
     } 
   };
 
-  // Navigation handlers
-  /*const handleSignUp = () => {
-    router.push('/components/SignUp');
-  };
-  */
+ 
 
   const handlePrivacyPolicy = () => {
-    //router.push('/privacy-policy'); 
   };
 
   return (
@@ -179,20 +174,7 @@ const Login = () => {
               {loading ? 'Logging in...' : 'Login'}
             </button>
 
-            {/* Sign up button 
-            <button
-              onClick={handleSignUp}
-              type="button"
-              disabled={loading}
-              className={`w-full p-3 rounded-md transition-colors duration-200 slide-in opacity-0 translate-x-full
-                ${loading 
-                  ? 'bg-blue-300 cursor-not-allowed' 
-                  : 'bg-blue-500 hover:bg-blue-600'
-                } text-white`}
-            >
-              Sign Up
-            </button>
-            */}
+            
           </form>
 
           {/* Footer */}
