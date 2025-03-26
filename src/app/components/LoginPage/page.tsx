@@ -1,6 +1,4 @@
-
 'use client';
-
 import { useRouter } from 'next/navigation';
 import React, { useState, useEffect } from 'react';
 import Lottie from 'lottie-react';
@@ -15,7 +13,6 @@ const Login = () => {
   const [animationData, setAnimationData] = useState(null);
   const router = useRouter();
 
-  // Fetch animation data
   useEffect(() => {
     const fetchAnimation = async () => {
       try {
@@ -29,7 +26,6 @@ const Login = () => {
     fetchAnimation();
   }, []);
 
-  // Handle slide-in animations
   useEffect(() => {
     const elements = document.querySelectorAll('.slide-in');
     elements.forEach((el, index) => {
@@ -41,7 +37,6 @@ const Login = () => {
     });
   }, []);
 
-  // Handle form submission
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
    
@@ -65,7 +60,6 @@ const Login = () => {
 
       const data = await response.json();
 
-      // Save auth data
       localStorage.setItem('token', data.token);
      
       localStorage.setItem("email", credentials.email);

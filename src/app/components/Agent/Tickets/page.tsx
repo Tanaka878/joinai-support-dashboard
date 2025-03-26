@@ -37,6 +37,7 @@ const Tickets: React.FC = () => {
   const [selectedTicket, setSelectedTicket] = useState<Ticket | null>(null);
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
   const [isLoading, setIsLoading] = useState<boolean>(true);
+  let authToken ="";
 
   // Fetch tickets from backend
   const fetchTickets = async () => {
@@ -101,15 +102,24 @@ const Tickets: React.FC = () => {
     setIsModalOpen(false);
   };
 
+  useEffect(()=>{
+    authToken =localStorage.getItem("token");
+  })
+
   const updateTicketStatus = async (ticketId: string, newStatus: "NEW" | "OPEN" | "CLOSED") => {
+    const updateData ={
+      status:newStatus,
+      token:authToken,
+      ticketId:ticketId
+    }
     try {
       setIsLoading(true);
-      const response = await fetch(`${BASE_URL}/admin/updateStatus/${ticketId}`, {
+      const response = await fetch(`${BASE_URL}/admin/updateStatus/`, {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ status: newStatus }),
+        body: JSON.stringify({updateData }),
       });
       
       if (!response.ok) {

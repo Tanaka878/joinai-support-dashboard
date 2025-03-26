@@ -5,31 +5,28 @@ import SideNav from '../SideNav/page';
 import NavBar from '../NavBar/page';
 
 const Layout = () => {
-  const [isSidebarOpen, setIsSidebarOpen] = useState(true); // Track sidebar state
+  const [isSidebarOpen, setIsSidebarOpen] = useState(true); 
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isNotificationTabOpen, setIsNotificationTabOpen] = useState(false);
   
   const toggleModal = () => {
     setIsModalOpen((prev) => {
       if (!prev) {
-        setIsNotificationTabOpen(false); // Close notifications if modal is opened
+        setIsNotificationTabOpen(false); 
       }
       return !prev;
     });
   };
   
   const toggleNotifications = () => {
+    setIsSidebarOpen(false)
     setIsNotificationTabOpen((prev) => {
       if (!prev) {
-        setIsModalOpen(false); // Close modal if notifications tab is opened
+        setIsModalOpen(false); 
       }
       return !prev;
     });
   };
-  
-  
-
- 
   
   return (
     <div className="h-screen flex flex-col overflow-hidden">
