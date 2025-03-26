@@ -37,9 +37,11 @@ const Tickets: React.FC = () => {
   const [selectedTicket, setSelectedTicket] = useState<Ticket | null>(null);
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
   const [isLoading, setIsLoading] = useState<boolean>(true);
-  let authToken ="";
+  const [authToken, setAuthToken] = useState("")
 
-  // Fetch tickets from backend
+
+
+
   const fetchTickets = async () => {
     setIsLoading(true);
     try {
@@ -102,9 +104,14 @@ const Tickets: React.FC = () => {
     setIsModalOpen(false);
   };
 
-  useEffect(()=>{
-    authToken =localStorage.getItem("token");
-  })
+ 
+    useEffect(() => {
+      const token = localStorage.getItem("token") ?? "";
+      setAuthToken(token)
+    }, []); 
+  
+  
+
 
   const updateTicketStatus = async (ticketId: string, newStatus: "NEW" | "OPEN" | "CLOSED") => {
     const updateData ={
@@ -114,19 +121,18 @@ const Tickets: React.FC = () => {
     }
     try {
       setIsLoading(true);
-      const response = await fetch(`${BASE_URL}/admin/updateStatus/`, {
-        method: "PUT",
+      const response = await fetch(`${BASE_URL}/ticket/updateTicket`, {
+        method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({updateData }),
+        body: JSON.stringify(updateData),
       });
       
       if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`);
       }
       
-      // Refresh the tickets list after update
       fetchTickets();
       
       if (isModalOpen) {
