@@ -3,11 +3,13 @@ import React, { useState } from 'react';
 import Tickets from '../Tickets/page';
 import SideNav from '../SideNav/page';
 import NavBar from '../NavBar/page';
+import { useRouter } from 'next/navigation';
 
 const Layout = () => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(true); 
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isNotificationTabOpen, setIsNotificationTabOpen] = useState(false);
+  const router = useRouter();
   
   const toggleModal = () => {
     setIsModalOpen((prev) => {
@@ -28,6 +30,11 @@ const Layout = () => {
     });
   };
   
+  function Logout(): void {
+    router.push("/components/LoginPage/")
+    
+  }
+
   return (
     <div className="h-screen flex flex-col overflow-hidden">
       {/* Navbar - fixed height at the top */}
@@ -65,7 +72,7 @@ const Layout = () => {
             <div className="text-sm text-gray-700 hover:text-blue-600 cursor-pointer">
               Daily Stats
             </div>
-            <div className="text-sm text-gray-700 hover:text-red-500 cursor-pointer">
+            <div className="text-sm text-gray-700 hover:text-red-500 cursor-pointer" onClick={Logout}>
               Logout
             </div>
           </div>
