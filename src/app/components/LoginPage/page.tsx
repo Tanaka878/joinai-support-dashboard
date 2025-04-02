@@ -74,22 +74,20 @@ const Login = () => {
 
   // Add a client-side effect for animations
   useEffect(() => {
-    // Initialize animation classes on mount
-    const initializeAnimations = () => {
-      // This function will run only on the client
-      const elements = document.querySelectorAll('.slide-in');
-      elements.forEach((el, index) => {
-        if (el instanceof HTMLElement) {
-          setTimeout(() => {
-            el.classList.remove('opacity-0', 'translate-x-full');
-            el.classList.add('opacity-100', 'translate-x-0');
-          }, index * 200); // 200ms delay per element
-        }
-      });
-    };
-
-    // Only run in browser environment
     if (typeof window !== 'undefined') {
+      // Initialize animation classes on mount
+      const initializeAnimations = () => {
+        const elements = document.querySelectorAll('.slide-in');
+        elements.forEach((el, index) => {
+          if (el instanceof HTMLElement) {
+            setTimeout(() => {
+              el.classList.remove('opacity-0', 'translate-x-full');
+              el.classList.add('opacity-100', 'translate-x-0');
+            }, index * 200); // 200ms delay per element
+          }
+        });
+      };
+
       // Delay slightly to ensure DOM is ready
       setTimeout(initializeAnimations, 100);
     }
