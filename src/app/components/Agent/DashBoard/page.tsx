@@ -1,7 +1,7 @@
 'use client';
 import React, { useState } from 'react';
-import NavBar from '../NavBar/page';
-import SideNav from '../SideNav/page';
+import NavBar from '../NavBar/NavBar';
+import SideNav from '../SideNav/SideNav';
 import Tickets from '../Tickets/page';
 import { useRouter } from 'next/navigation';
 import { FaSignOutAlt ,FaChartBar, FaUser} from 'react-icons/fa';

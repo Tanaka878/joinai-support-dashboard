@@ -1,7 +1,7 @@
 'use client'
 import React, { useEffect, useState } from "react";
 import BASE_URL from "@/app/config/api/api";
-import TicketFilter from "../TicketFilterDisplay/page";
+import TicketFilter from "../TicketFilterDisplay/TicketFilter";
 
 type Ticket = {
   id: string;
@@ -67,7 +67,7 @@ const Tickets: React.FC = () => {
 
   useEffect(() => {
     fetchTickets();
-  }, []);
+  }, [0]);
 
   // Calculate ticket stats
   const calculateTicketStats = (data: Ticket[]) => {

@@ -1,8 +1,8 @@
 'use client';
 import React, { useState } from 'react';
 import Tickets from '../Tickets/page';
-import SideNav from '../SideNav/page';
-import NavBar from '../NavBar/page';
+import SideNav from '../SideNav/SideNav';
+import NavBar from '../NavBar/NavBar';
 import { useRouter } from 'next/navigation';
 
 const Layout = () => {

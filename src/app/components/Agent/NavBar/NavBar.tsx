@@ -13,7 +13,7 @@ const NavBar: React.FC<NavBar> = ({ onModalChange, showNotifications }) => {
     <div className="bg-gray-600 h-16 w-full fixed top-0 left-0 flex items-center justify-between px-4 shadow-md z-10">
       {/* Left Section - Responsive */}
       <div className="flex items-center text-white space-x-4">
-        <HorizontalBarsIcon className="text-white w-8 h-8" />
+        <HorizontalBarsIcon />
         <span className="text-xl font-semibold hidden sm:inline">Tickets</span>
         <div className="w-6 h-6 hidden sm:block">
           <svg

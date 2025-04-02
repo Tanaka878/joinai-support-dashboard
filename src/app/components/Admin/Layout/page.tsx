@@ -1,20 +1,15 @@
 'use client';
 import React, { useState } from 'react';
-import NavBar from '../../Agent/NavBar/page';
+import NavBar from '../../Agent/NavBar/NavBar';
 import SideNav from '../AdminNavigation/AdminNavigation';
 import { useRouter } from 'next/navigation';
 import AgentDataComponent from '../AgentsData/page';
 import TicketList from '../TicketData/page';
 import Reports from '../Reports/page';
 
-interface NavBarProps {
-  onModalChange: () => void;
-  showNotifications: () => void;
-}
-
-const Layout: React.FC<NavBarProps> = ({}) => {
+const Layout: React.FC = () => { 
   const [currentView, setCurrentView] = useState('Dashboard');
-  const [isSidebarOpen, setIsSidebarOpen] = useState(true); // Track sidebar state
+  const [isSidebarOpen, setIsSidebarOpen] = useState(true);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isNotificationTabOpen, setIsNotificationTabOpen] = useState(false);
   const router = useRouter();
@@ -23,7 +18,7 @@ const Layout: React.FC<NavBarProps> = ({}) => {
   const toggleNotifications = () => setIsNotificationTabOpen(!isNotificationTabOpen);
   
   function Logout() {
-    setIsSidebarOpen(true)
+    setIsSidebarOpen(true);
     router.push('/components/LoginPage');
   }
   
@@ -70,7 +65,6 @@ const Layout: React.FC<NavBarProps> = ({}) => {
           className="fixed top-20 right-6 z-50 w-80 bg-white shadow-lg rounded-lg overflow-hidden border border-gray-200"
           aria-hidden={!isModalOpen}
         >
-          {/* Modal Content */}
           <div onClick={Logout} className='text-black'>Logout</div>
         </div>
       )}
