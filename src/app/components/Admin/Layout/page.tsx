@@ -1,18 +1,18 @@
 'use client';
 import React, { useState } from 'react';
 import NavBar from '../../Agent/NavBar/page';
-import SideNav from '../AdminNavigation/page';
+import SideNav from '../AdminNavigation/AdminNavigation';
 import { useRouter } from 'next/navigation';
 import AgentDataComponent from '../AgentsData/page';
 import TicketList from '../TicketData/page';
 import Reports from '../Reports/page';
 
-interface NavBar {
+interface NavBarProps {
   onModalChange: () => void;
   showNotifications: () => void;
 }
 
-const Layout: React.FC<NavBar> = ({}) => {
+const Layout: React.FC<NavBarProps> = ({}) => {
   const [currentView, setCurrentView] = useState('Dashboard');
   const [isSidebarOpen, setIsSidebarOpen] = useState(true); // Track sidebar state
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -23,10 +23,10 @@ const Layout: React.FC<NavBar> = ({}) => {
   const toggleNotifications = () => setIsNotificationTabOpen(!isNotificationTabOpen);
   
   function Logout() {
+    setIsSidebarOpen(true)
     router.push('/components/LoginPage');
   }
   
-  // Render the current view based on the state
   const renderContent = () => {
     switch (currentView) {
       case 'Dashboard':
@@ -34,9 +34,9 @@ const Layout: React.FC<NavBar> = ({}) => {
       case 'Tickets':
         return <TicketList />;
       case 'Agents':
-        return <Reports />; // Replace with your Agents component
+        return <Reports />; 
       case 'Statistics':
-        return <AgentDataComponent />; // Replace with your Statistics component
+        return <AgentDataComponent />; 
       default:
         return <TicketList />;
     }
@@ -44,7 +44,6 @@ const Layout: React.FC<NavBar> = ({}) => {
   
   return (
     <div className="h-screen flex flex-col overflow-hidden">
-      {/* Navbar - fixed height at the top */}
       <div className="flex-none">
         <NavBar 
           onModalChange={toggleModal} 
@@ -52,9 +51,7 @@ const Layout: React.FC<NavBar> = ({}) => {
         />
       </div>
       
-      {/* Main Content Container */}
       <div className="flex flex-1 overflow-hidden">
-        {/* Sidebar - with controllable visibility */}
         <div className={`flex-none ${isSidebarOpen ? 'w-64' : 'w-16'} transition-width duration-300 ease-in-out`}>
           <SideNav
             isSidebarOpen={isSidebarOpen}
@@ -62,7 +59,6 @@ const Layout: React.FC<NavBar> = ({}) => {
           />
         </div>
         
-        {/* Main Dashboard Content - takes remaining space */}
         <div className="flex-1 bg-gray-100 p-6 overflow-auto mt-12 text-black">
           {renderContent()}
         </div>
@@ -75,6 +71,7 @@ const Layout: React.FC<NavBar> = ({}) => {
           aria-hidden={!isModalOpen}
         >
           {/* Modal Content */}
+          <div onClick={Logout} className='text-black'>Logout</div>
         </div>
       )}
       

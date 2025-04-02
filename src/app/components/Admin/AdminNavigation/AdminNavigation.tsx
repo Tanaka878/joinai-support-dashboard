@@ -8,7 +8,7 @@ interface SideNavProps {
   onSelectPage: (page: string) => void; // Callback to parent
 }
 
-const SideNav: React.FC<SideNavProps> = ({ isSidebarOpen, onSelectPage }) => {
+const AdminNavigation: React.FC<SideNavProps> = ({ isSidebarOpen, onSelectPage }) => {
   const navItems = [
     { icon: <MdDashboard className="w-5 h-5" />, label: 'Dashboard', href: '/dashboard' },
     { icon: <FaTicketAlt className="w-5 h-5" />, label: 'Tickets', href: '/components/Admin/Tickets' },
@@ -46,4 +46,4 @@ const SideNav: React.FC<SideNavProps> = ({ isSidebarOpen, onSelectPage }) => {
   );
 };
 
-export default SideNav;
+export default AdminNavigation;
