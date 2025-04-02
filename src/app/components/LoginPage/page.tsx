@@ -26,7 +26,6 @@ const Login = () => {
     fetchAnimation();
   }, []);
 
-
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
    
@@ -50,9 +49,11 @@ const Login = () => {
 
       const data = await response.json();
 
-      localStorage.setItem('token', data.token);
-     
-      localStorage.setItem("email", credentials.email);
+      // Browser-only operations wrapped in a check
+      if (typeof window !== 'undefined') {
+        localStorage.setItem('token', data.token);
+        localStorage.setItem("email", credentials.email);
+      }
 
       if(data.role == "ADMIN"){
         router.push("/components/Admin/Layout");
@@ -70,6 +71,29 @@ const Login = () => {
 
   const handlePrivacyPolicy = () => {
   };
+
+  // Add a client-side effect for animations
+  useEffect(() => {
+    // Initialize animation classes on mount
+    const initializeAnimations = () => {
+      // This function will run only on the client
+      const elements = document.querySelectorAll('.slide-in');
+      elements.forEach((el, index) => {
+        if (el instanceof HTMLElement) {
+          setTimeout(() => {
+            el.classList.remove('opacity-0', 'translate-x-full');
+            el.classList.add('opacity-100', 'translate-x-0');
+          }, index * 200); // 200ms delay per element
+        }
+      });
+    };
+
+    // Only run in browser environment
+    if (typeof window !== 'undefined') {
+      // Delay slightly to ensure DOM is ready
+      setTimeout(initializeAnimations, 100);
+    }
+  }, []);
 
   return (
     <div className="min-h-screen relative flex items-center justify-center bg-gray-50 mt-3.5">
