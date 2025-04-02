@@ -15,28 +15,26 @@ const Login = () => {
   const router = useRouter();
 
   useEffect(() => {
-    // Set isClient to true after the component is mounted on the client
     setIsClient(true);
   }, []);
 
   useEffect(() => {
-    if (isClient) {
-      const fetchAnimation = async () => {
-        try {
-          const response = await fetch("/Animatons/support1.json");
-          const data = await response.json();
-          setAnimationData(data);
-        } catch (error) {
-          console.error('Failed to load animation:', error);
-        }
-      };
-      fetchAnimation();
-    }
-  }, [isClient]); // Only run on client-side
+    if (!isClient) return;
+
+    const fetchAnimation = async () => {
+      try {
+        const response = await fetch("/Animatons/support1.json");
+        const data = await response.json();
+        setAnimationData(data);
+      } catch (error) {
+        console.error('Failed to load animation:', error);
+      }
+    };
+    fetchAnimation();
+  }, [isClient]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-   
     setLoading(true);
     setError('');
 
@@ -57,82 +55,58 @@ const Login = () => {
 
       const data = await response.json();
 
-      // Browser-only operations wrapped in a check
       if (typeof window !== 'undefined') {
         localStorage.setItem('token', data.token);
-        localStorage.setItem("email", credentials.email);
+        localStorage.setItem('email', credentials.email);
       }
 
-      if(data.role == "ADMIN"){
-        router.push("/components/Admin/Layout");
-      }else{
-        router.push("/components/Agent/Layout");
-      }
-           
+      router.push(data.role === 'ADMIN' ? '/components/Admin/Layout' : '/components/Agent/Layout');
     } catch (error) {
-      console.log(error)
+      console.log(error);
       setError('Invalid credentials. Please try again.');
     } finally {
       setLoading(false);
-    } 
-  };
-
-  const handlePrivacyPolicy = () => {
-  };
-
-  // Add a client-side effect for animations
-  useEffect(() => {
-    if (isClient) {
-      const initializeAnimations = () => {
-        const elements = document.querySelectorAll('.slide-in');
-        elements.forEach((el, index) => {
-          if (el instanceof HTMLElement) {
-            setTimeout(() => {
-              el.classList.remove('opacity-0', 'translate-x-full');
-              el.classList.add('opacity-100', 'translate-x-0');
-            }, index * 200); // 200ms delay per element
-          }
-        });
-      };
-
-      // Delay slightly to ensure DOM is ready
-      setTimeout(initializeAnimations, 100);
     }
+  };
+
+  useEffect(() => {
+    if (!isClient) return;
+
+    const initializeAnimations = () => {
+      const elements = document.querySelectorAll('.slide-in');
+      elements.forEach((el, index) => {
+        if (el instanceof HTMLElement) {
+          setTimeout(() => {
+            el.classList.remove('opacity-0', 'translate-x-full');
+            el.classList.add('opacity-100', 'translate-x-0');
+          }, index * 200);
+        }
+      });
+    };
+
+    setTimeout(initializeAnimations, 100);
   }, [isClient]);
 
   return (
     <div className="min-h-screen relative flex items-center justify-center bg-gray-50 mt-3.5">
-      {/* Animation background */}
       <div className="fixed inset-0 z-0">
         {isClient && animationData && (
-          <Lottie 
-            loop
-            className="w-full h-full object-cover"
-            animationData={animationData}
-          />
+          <Lottie loop className="w-full h-full object-cover" animationData={animationData} />
         )}
       </div>
 
-      {/* Main content */}
       <div className="w-full max-w-sm p-4 relative z-10">
         <div className="bg-white/90 backdrop-blur-sm rounded-lg p-6 shadow-xl">
-          {/* Logo/Title */}
           <h1 className="flex justify-center text-center text-black font-extrabold text-xl sm:text-2xl mb-6">
-            <Image src={'/Images/j.png'} alt={'Joinai Image'} width={30} height={30}/>
+            <Image src={'/Images/j.png'} alt={'Joinai Image'} width={30} height={30} />
             oinai Support
           </h1>
 
-          <h2 className="text-3xl font-extrabold text-center mb-8 slide-in opacity-0 translate-x-full">
-            Login
-          </h2>
+          <h2 className="text-3xl font-extrabold text-center mb-8 slide-in opacity-0 translate-x-full">Login</h2>
 
-          {/* Login Form */}
           <form onSubmit={handleSubmit} className="space-y-4">
             <div>
-              <label 
-                htmlFor="email" 
-                className="block text-sm font-medium text-gray-700 mb-1 slide-in opacity-0 translate-x-full"
-              >
+              <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-1 slide-in opacity-0 translate-x-full">
                 Email
               </label>
               <input
@@ -149,13 +123,10 @@ const Login = () => {
             </div>
 
             <div>
-              <label 
-                htmlFor="password" 
-                className="block text-sm font-medium text-gray-700 mb-1 slide-in opacity-0 translate-x-full"
-              >
+              <label htmlFor="password" className="block text-sm font-medium text-gray-700 mb-1 slide-in opacity-0 translate-x-full">
                 Password
               </label>
-              <input 
+              <input
                 type="password"
                 id="password"
                 name="password"
@@ -166,32 +137,19 @@ const Login = () => {
               />
             </div>
 
-            {/* Error message */}
-            {error && (
-              <div className="text-red-500 text-sm slide-in opacity-0 translate-x-full">
-                {error}
-              </div>
-            )}
+            {error && <div className="text-red-500 text-sm slide-in opacity-0 translate-x-full">{error}</div>}
 
-            {/* Submit button */}
             <button
               type="submit"
               className={`w-full p-3 rounded-md transition-colors duration-200 slide-in opacity-0 translate-x-full
-                ${loading 
-                  ? 'bg-blue-300 cursor-not-allowed' 
-                  : 'bg-blue-500 hover:bg-blue-600'
-                } text-white`}
+                ${loading ? 'bg-blue-300 cursor-not-allowed' : 'bg-blue-500 hover:bg-blue-600'} text-white`}
             >
               {loading ? 'Logging in...' : 'Login'}
             </button>
           </form>
 
-          {/* Footer */}
           <footer className="mt-6 text-center">
-            <button 
-              onClick={handlePrivacyPolicy}
-              className="text-blue-600 hover:text-blue-800 text-sm transition-colors duration-200"
-            >
+            <button className="text-blue-600 hover:text-blue-800 text-sm transition-colors duration-200">
               Privacy Policy
             </button>
           </footer>
