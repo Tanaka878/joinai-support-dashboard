@@ -26,20 +26,6 @@ const Login = () => {
     fetchAnimation();
   }, []);
 
-  // Fix for the document is not defined error
-  useEffect(() => {
-    // Only run this effect in the browser
-    if (typeof window !== 'undefined') {
-      const elements = document.querySelectorAll('.slide-in');
-      elements.forEach((el, index) => {
-        if (el instanceof HTMLElement) {
-          el.classList.remove('opacity-0', 'translate-x-full');
-          el.classList.add('opacity-100', 'translate-x-0');
-          el.style.animationDelay = `${index * 0.2}s`;
-        }
-      });
-    }
-  }, []);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
