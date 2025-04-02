@@ -11,20 +11,28 @@ const Login = () => {
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
   const [animationData, setAnimationData] = useState(null);
+  const [isClient, setIsClient] = useState(false); // Track if we are on the client
   const router = useRouter();
 
   useEffect(() => {
-    const fetchAnimation = async () => {
-      try {
-        const response = await fetch("/Animatons/support1.json");
-        const data = await response.json();
-        setAnimationData(data);
-      } catch (error) {
-        console.error('Failed to load animation:', error);
-      }
-    };
-    fetchAnimation();
+    // Set isClient to true after the component is mounted on the client
+    setIsClient(true);
   }, []);
+
+  useEffect(() => {
+    if (isClient) {
+      const fetchAnimation = async () => {
+        try {
+          const response = await fetch("/Animatons/support1.json");
+          const data = await response.json();
+          setAnimationData(data);
+        } catch (error) {
+          console.error('Failed to load animation:', error);
+        }
+      };
+      fetchAnimation();
+    }
+  }, [isClient]); // Only run on client-side
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -74,8 +82,7 @@ const Login = () => {
 
   // Add a client-side effect for animations
   useEffect(() => {
-    if (typeof window !== 'undefined') {
-      // Initialize animation classes on mount
+    if (isClient) {
       const initializeAnimations = () => {
         const elements = document.querySelectorAll('.slide-in');
         elements.forEach((el, index) => {
@@ -91,13 +98,13 @@ const Login = () => {
       // Delay slightly to ensure DOM is ready
       setTimeout(initializeAnimations, 100);
     }
-  }, []);
+  }, [isClient]);
 
   return (
     <div className="min-h-screen relative flex items-center justify-center bg-gray-50 mt-3.5">
       {/* Animation background */}
       <div className="fixed inset-0 z-0">
-        {animationData && (
+        {isClient && animationData && (
           <Lottie 
             loop
             className="w-full h-full object-cover"
