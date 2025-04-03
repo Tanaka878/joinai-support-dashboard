@@ -1,9 +1,15 @@
 'use client';
 import { useRouter } from 'next/navigation';
 import React, { useState, useEffect } from 'react';
-import Lottie from 'lottie-react';
+import dynamic from 'next/dynamic';
 import BASE_URL from '@/app/config/api/api';
 import Image from 'next/image';
+
+// Dynamically import Lottie with SSR disabled
+const Lottie = dynamic(() => import('lottie-react'), { 
+  ssr: false,
+  loading: () => <div className="fixed inset-0 z-0 bg-gray-100" />
+});
 
 const Login = () => {
   const [email, setEmail] = useState('');
@@ -13,6 +19,7 @@ const Login = () => {
   const [animationData, setAnimationData] = useState(null);
   const router = useRouter();
 
+  // Fetch animation data
   useEffect(() => {
     const fetchAnimation = async () => {
       try {
@@ -26,26 +33,29 @@ const Login = () => {
     fetchAnimation();
   }, []);
 
+  // Animation effects - client-side only
   useEffect(() => {
-    if (typeof document !== 'undefined') {
+    const animateElements = () => {
       const elements = document.querySelectorAll('.slide-in');
       elements.forEach((el, index) => {
         if (el instanceof HTMLElement) {
           el.classList.remove('opacity-0', 'translate-x-full');
           el.classList.add('opacity-100', 'translate-x-0');
-          el.style.animationDelay = `${index * 0.2}s`;
+          el.style.transitionDelay = `${index * 0.1}s`;
         }
       });
+    };
+
+    // Only run on client side
+    if (typeof window !== 'undefined') {
+      animateElements();
     }
   }, []);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-   
     setLoading(true);
     setError('');
-
-    const credentials = { email, password };
 
     try {
       const response = await fetch(`${BASE_URL}/admin/authenticate/`, {
@@ -53,7 +63,7 @@ const Login = () => {
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify(credentials),
+        body: JSON.stringify({ email, password }),
       });
 
       if (!response.ok) {
@@ -62,32 +72,32 @@ const Login = () => {
 
       const data = await response.json();
 
+      // Safely access localStorage
       if (typeof window !== 'undefined') {
         localStorage.setItem('token', data.token);
-        localStorage.setItem("email", credentials.email);
+        localStorage.setItem('email', email);
       }
 
-      if(data.role == "ADMIN"){
-        router.push("/components/Admin/Layout");
-      }else{
-        router.push("/components/Agent/Layout");
-      }
-           
+      // Redirect based on role
+      router.push(data.role === "ADMIN" 
+        ? "/components/Admin/Layout" 
+        : "/components/Agent/Layout");
     } catch (error) {
-      console.log(error)
+      console.error('Login error:', error);
       setError('Invalid credentials. Please try again.');
     } finally {
       setLoading(false);
-    } 
+    }
   };
 
   const handlePrivacyPolicy = () => {
-    // Implement privacy policy logic
+    // Implement privacy policy navigation if needed
+    console.log('Privacy policy clicked');
   };
 
   return (
     <div className="min-h-screen relative flex items-center justify-center bg-gray-50 mt-3.5">
-      {/* Animation background */}
+      {/* Animation background - only renders on client */}
       <div className="fixed inset-0 z-0">
         {animationData && (
           <Lottie 
@@ -102,12 +112,18 @@ const Login = () => {
       <div className="w-full max-w-sm p-4 relative z-10">
         <div className="bg-white/90 backdrop-blur-sm rounded-lg p-6 shadow-xl">
           {/* Logo/Title */}
-          <h1 className="flex justify-center text-center text-black font-extrabold text-xl sm:text-2xl mb-6">
-            <Image src={'/Images/j.png'} alt={'Joinai Image'} width={30} height={30}/>
+          <h1 className="flex justify-center items-center text-center text-black font-extrabold text-xl sm:text-2xl mb-6">
+            <Image 
+              src="/Images/j.png" 
+              alt="Joinai Logo" 
+              width={30} 
+              height={30}
+              className="mr-1"
+            />
             oinai Support
           </h1>
 
-          <h2 className="text-3xl font-extrabold text-center mb-8 slide-in opacity-0 translate-x-full">
+          <h2 className="text-3xl font-extrabold text-center mb-8 slide-in opacity-0 translate-x-full transition-all duration-300">
             Login
           </h2>
 
@@ -116,7 +132,7 @@ const Login = () => {
             <div>
               <label 
                 htmlFor="email" 
-                className="block text-sm font-medium text-gray-700 mb-1 slide-in opacity-0 translate-x-full"
+                className="block text-sm font-medium text-gray-700 mb-1 slide-in opacity-0 translate-x-full transition-all duration-300"
               >
                 Email
               </label>
@@ -126,8 +142,7 @@ const Login = () => {
                 name="email"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                className="w-full p-3 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500
-                 focus:border-blue-500 slide-in opacity-0 translate-x-full text-black"
+                className="w-full p-3 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500 slide-in opacity-0 translate-x-full transition-all duration-300 text-black"
                 required
                 disabled={loading}
               />
@@ -136,7 +151,7 @@ const Login = () => {
             <div>
               <label 
                 htmlFor="password" 
-                className="block text-sm font-medium text-gray-700 mb-1 slide-in opacity-0 translate-x-full"
+                className="block text-sm font-medium text-gray-700 mb-1 slide-in opacity-0 translate-x-full transition-all duration-300"
               >
                 Password
               </label>
@@ -146,14 +161,15 @@ const Login = () => {
                 name="password"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
-                className="w-full p-3 border text-black border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500 slide-in opacity-0 translate-x-full"
+                className="w-full p-3 border text-black border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500 slide-in opacity-0 translate-x-full transition-all duration-300"
                 required
+                disabled={loading}
               />
             </div>
 
             {/* Error message */}
             {error && (
-              <div className="text-red-500 text-sm slide-in opacity-0 translate-x-full">
+              <div className="text-red-500 text-sm slide-in opacity-0 translate-x-full transition-all duration-300">
                 {error}
               </div>
             )}
@@ -161,7 +177,8 @@ const Login = () => {
             {/* Submit button */}
             <button
               type="submit"
-              className={`w-full p-3 rounded-md transition-colors duration-200 slide-in opacity-0 translate-x-full
+              disabled={loading}
+              className={`w-full p-3 rounded-md transition-all duration-300 slide-in opacity-0 translate-x-full
                 ${loading 
                   ? 'bg-blue-300 cursor-not-allowed' 
                   : 'bg-blue-500 hover:bg-blue-600'
