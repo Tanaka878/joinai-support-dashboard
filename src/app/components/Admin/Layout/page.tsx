@@ -61,13 +61,32 @@ const Layout: React.FC = () => {
       
       {/* Modal */}
       {isModalOpen && (
-        <div
-          className="fixed top-20 right-6 z-50 w-80 bg-white shadow-lg rounded-lg overflow-hidden border border-gray-200"
-          aria-hidden={!isModalOpen}
-        >
-          <div onClick={Logout} className='text-black'>Logout</div>
-        </div>
-      )}
+  <div
+    className="fixed top-20 right-6 z-50 w-80 bg-white shadow-lg rounded-lg overflow-hidden border border-gray-200"
+    aria-hidden={!isModalOpen}
+  >
+    <div 
+      onClick={Logout} 
+      className="text-gray-800 hover:bg-gray-100 py-3 px-4 w-full text-left cursor-pointer transition-colors duration-200 flex items-center font-medium"
+    >
+      <svg 
+        xmlns="http://www.w3.org/2000/svg" 
+        className="h-5 w-5 mr-3 text-gray-600" 
+        fill="none" 
+        viewBox="0 0 24 24" 
+        stroke="currentColor"
+      >
+        <path 
+          strokeLinecap="round" 
+          strokeLinejoin="round" 
+          strokeWidth={2} 
+          d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" 
+        />
+      </svg>
+      Logout
+    </div>
+  </div>
+)}
       
       {/* Notifications Tab */}
       {isNotificationTabOpen && (
