@@ -35,6 +35,10 @@ const Layout = () => {
     
   }
 
+  function DailyStats(): void {
+    
+  }
+
   return (
     <div className="h-screen flex flex-col overflow-hidden">
       {/* Navbar - fixed height at the top */}
@@ -69,7 +73,7 @@ const Layout = () => {
           {/* Modal Content */}
           <div className="text-black bg-gray-100 p-4 rounded-xl shadow-lg space-y-4">
             <div className="font-bold text-lg border-b pb-2">Account Settings</div>
-            <div className="text-sm text-gray-700 hover:text-blue-600 cursor-pointer">
+            <div onClick={DailyStats} className="text-sm text-gray-700 hover:text-blue-600 cursor-pointer">
               Daily Stats
             </div>
             <div className="text-sm text-gray-700 hover:text-red-500 cursor-pointer" onClick={Logout}>
