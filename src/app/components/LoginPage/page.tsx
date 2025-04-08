@@ -19,7 +19,6 @@ const Login = () => {
   const [animationData, setAnimationData] = useState(null);
   const router = useRouter();
 
-  // Fetch animation data
   useEffect(() => {
     const fetchAnimation = async () => {
       try {
@@ -33,7 +32,6 @@ const Login = () => {
     fetchAnimation();
   }, []);
 
-  // Animation effects - client-side only
   useEffect(() => {
     const animateElements = () => {
       const elements = document.querySelectorAll('.slide-in');
@@ -46,7 +44,6 @@ const Login = () => {
       });
     };
 
-    // Only run on client side
     if (typeof window !== 'undefined') {
       animateElements();
     }
@@ -72,13 +69,12 @@ const Login = () => {
 
       const data = await response.json();
 
-      // Safely access localStorage
       if (typeof window !== 'undefined') {
         localStorage.setItem('token', data.token);
         localStorage.setItem('email', email);
+        localStorage.setItem("id", data.id)
       }
 
-      // Redirect based on role
       router.push(data.role === "ADMIN" 
         ? "/components/Admin/Layout" 
         : "/components/Agent/Layout");
@@ -91,7 +87,6 @@ const Login = () => {
   };
 
   const handlePrivacyPolicy = () => {
-    // Implement privacy policy navigation if needed
     console.log('Privacy policy clicked');
   };
 
