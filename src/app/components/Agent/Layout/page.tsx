@@ -4,11 +4,16 @@ import Tickets from '../Tickets/page';
 import SideNav from '../SideNav/SideNav';
 import NavBar from '../NavBar/NavBar';
 import { useRouter } from 'next/navigation';
+import AgentDataComponent from '../../Admin/AgentsData/page';
+import TicketList from '../../Admin/TicketData/page';
+import Reports from '../../Admin/Reports/page';
 
 const Layout = () => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(true); 
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isNotificationTabOpen, setIsNotificationTabOpen] = useState(false);
+    const [currentView, setCurrentView] = useState('Dashboard');
+  
   const router = useRouter();
   
   const toggleModal = () => {
@@ -40,6 +45,21 @@ const Layout = () => {
     
   }
 
+  const renderContent = () => {
+    switch (currentView) {
+      case 'Dashboard':
+        return <Tickets />;
+      case 'Tickets':
+        return <TicketList />;
+      case 'Agents':
+        return <Reports />; 
+      case 'Statistics':
+        return <AgentDataComponent />; 
+      default:
+        return <TicketList />;
+    }
+  };
+
   return (
     <div className="h-screen flex flex-col overflow-hidden">
       {/* Navbar - fixed height at the top */}
@@ -56,12 +76,13 @@ const Layout = () => {
         <div className={`flex-none ${isSidebarOpen ? 'w-64' : 'w-16'} transition-width duration-300 ease-in-out`}>
           <SideNav
             isSidebarOpen={isSidebarOpen}
+            onSelectPage={(view) => setCurrentView(view)}
           />
         </div>
         
-        {/* Main Dashboard Content - takes remaining space */}
         <div className="flex-1 bg-gray-100 p-6 overflow-auto mt-12 text-black">
-            <Tickets/>
+        {renderContent()}
+    
         </div>
       </div>
       
