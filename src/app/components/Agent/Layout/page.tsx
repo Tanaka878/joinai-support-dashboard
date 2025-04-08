@@ -5,7 +5,6 @@ import SideNav from '../SideNav/SideNav';
 import NavBar from '../NavBar/NavBar';
 import { useRouter } from 'next/navigation';
 import AgentDataComponent from '../../Admin/AgentsData/page';
-import TicketList from '../../Admin/TicketData/page';
 import Reports from '../../Admin/Reports/page';
 
 const Layout = () => {
@@ -50,13 +49,13 @@ const Layout = () => {
       case 'Dashboard':
         return <Tickets />;
       case 'Tickets':
-        return <TicketList />;
+        return <Tickets />;
       case 'Agents':
         return <Reports />; 
       case 'Statistics':
         return <AgentDataComponent />; 
       default:
-        return <TicketList />;
+        return <Tickets />;
     }
   };
 
