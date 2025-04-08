@@ -14,10 +14,8 @@ import {
   ChartData
 } from 'chart.js'
 
-// Register required chart components
 ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend)
 
-// Define the expected structure of the stats response
 interface StatsByAgent {
   SOLVED_DAILY: number
   SOLVED_WEEKLY: number
@@ -29,17 +27,23 @@ interface StatsByAgent {
 
 const BarChart: React.FC = () => {
   const [stats, setStats] = useState<StatsByAgent | null>(null)
+  const [error, setError] = useState<string | null>(null)
 
   useEffect(() => {
     const fetchStats = async () => {
       try {
+        const storedToken = localStorage.getItem('token')
+        if (!storedToken) {
+          throw new Error('No token found')
+        }
+
         const response = await fetch('http://localhost:8080/ticket/getMyStats', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
           },
           body: JSON.stringify({
-            token: 'your-auth-token-here', // Replace with actual token
+            token: storedToken,
           }),
         })
 
@@ -49,13 +53,18 @@ const BarChart: React.FC = () => {
 
         const data: StatsByAgent = await response.json()
         setStats(data)
-      } catch (error) {
-        console.error('Error fetching stats:', error)
+      } catch (err) {
+        console.error('Error fetching stats:', err)
+        setError(err instanceof Error ? err.message : 'Unknown error')
       }
     }
 
     fetchStats()
   }, [])
+
+  if (error) {
+    return <p>Error: {error}</p>
+  }
 
   if (!stats) {
     return <p>Loading chart...</p>
