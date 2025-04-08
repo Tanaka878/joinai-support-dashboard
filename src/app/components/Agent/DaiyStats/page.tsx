@@ -1,5 +1,4 @@
 'use client'
-
 import React, { useEffect, useState } from 'react'
 import { Bar } from 'react-chartjs-2'
 import {
@@ -16,13 +15,14 @@ import {
 
 ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend)
 
+// Updated interface to match the actual response format
 interface StatsByAgent {
-  SOLVED_DAILY: number
-  SOLVED_WEEKLY: number
-  SOLVED_MONTHLY: number
-  DAILY_TICKETS: number
-  WEEKLY_TICKETS: number
-  MONTHLY_TICKETS: number
+  solved_DAILY: number
+  solved_WEEKLY: number
+  solved_MONTHLY: number
+  daily_TICKETS: number
+  weekly_TICKETS: number
+  monthly_TICKETS: number
 }
 
 const BarChart: React.FC = () => {
@@ -36,8 +36,7 @@ const BarChart: React.FC = () => {
         if (!storedToken) {
           throw new Error('No token found')
         }
-
-        const response = await fetch('http://localhost:8080/ticket/getMyStats', {
+        const response = await fetch('http://localhost:8082/ticket/getMyStats', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
@@ -46,11 +45,9 @@ const BarChart: React.FC = () => {
             token: storedToken,
           }),
         })
-
         if (!response.ok) {
           throw new Error(`HTTP error! status: ${response.status}`)
         }
-
         const data: StatsByAgent = await response.json()
         setStats(data)
       } catch (err) {
@@ -58,36 +55,40 @@ const BarChart: React.FC = () => {
         setError(err instanceof Error ? err.message : 'Unknown error')
       }
     }
-
     fetchStats()
   }, [])
 
   if (error) {
     return <p>Error: {error}</p>
   }
-
+  
   if (!stats) {
     return <p>Loading chart...</p>
   }
-
+  
+  console.log(stats)
+  
   const data: ChartData<'bar'> = {
     labels: ['Daily', 'Weekly', 'Monthly'],
     datasets: [
       {
         label: 'Solved Tickets',
         backgroundColor: 'rgba(75, 192, 192, 0.6)',
-        data: [stats.SOLVED_DAILY, stats.SOLVED_WEEKLY, stats.SOLVED_MONTHLY],
+        // Updated to match the actual property names
+        data: [stats.solved_DAILY, stats.solved_WEEKLY, stats.solved_MONTHLY],
       },
       {
         label: 'Total Tickets',
         backgroundColor: 'rgba(255, 99, 132, 0.6)',
-        data: [stats.DAILY_TICKETS, stats.WEEKLY_TICKETS, stats.MONTHLY_TICKETS],
+        // Updated to match the actual property names
+        data: [stats.daily_TICKETS, stats.weekly_TICKETS, stats.monthly_TICKETS],
       },
     ],
   }
 
   const options: ChartOptions<'bar'> = {
     responsive: true,
+    maintainAspectRatio: false,
     plugins: {
       title: {
         display: true,
@@ -99,7 +100,12 @@ const BarChart: React.FC = () => {
     },
   }
 
-  return <Bar data={data} options={options} />
+  // Add a container with explicit height
+  return (
+    <div style={{ height: '400px', width: '100%' }}>
+      <Bar data={data} options={options} />
+    </div>
+  )
 }
 
 export default BarChart

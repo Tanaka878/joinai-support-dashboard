@@ -36,6 +36,7 @@ const Layout = () => {
   }
 
   function DailyStats(): void {
+    router.push("/components/Agent/DaiyStats")
     
   }
 
