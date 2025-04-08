@@ -11,7 +11,7 @@ type Ticket = {
   content: string;
   priority: "CRITICAL" | "HIGH" | "MEDIUM" | "LOW";
   attachments: string[];
-  createdAt: string;
+  launchTimestamp: string;
   updatedAt: string;
   assignedTo?: string;
 };
@@ -246,7 +246,7 @@ const Tickets: React.FC = () => {
                   {ticket.priority}
                 </div>
                 <div className="text-gray-500 text-sm">
-                  {formatDate(ticket.createdAt)}
+                  {formatDate(ticket.launchTimestamp)}
                 </div>
               </div>
               
@@ -326,7 +326,7 @@ const Tickets: React.FC = () => {
                 </div>
                 <div>
                   <p className="text-sm text-gray-500">Created</p>
-                  <p>{formatDate(selectedTicket.createdAt)}</p>
+                  <p>{formatDate(selectedTicket.launchTimestamp)}</p>
                 </div>
                 <div>
                   <p className="text-sm text-gray-500">Updated</p>
