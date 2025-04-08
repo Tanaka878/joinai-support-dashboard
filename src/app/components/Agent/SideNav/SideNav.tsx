@@ -5,7 +5,7 @@ import { MdDashboard, MdSettings } from "react-icons/md";
 
 interface SideNavProps {
   isSidebarOpen: boolean;
-  onSelectPage: (page: string) => void; // Callback to parent
+  onSelectPage: (page: string) => void; 
 }
 
 const SideNav: React.FC<SideNavProps> = ({ isSidebarOpen, onSelectPage }) => {
