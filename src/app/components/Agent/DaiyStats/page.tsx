@@ -12,10 +12,10 @@ import {
   ChartOptions,
   ChartData
 } from 'chart.js'
+import BASE_URL from '@/app/config/api/api'
 
 ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend)
 
-// Updated interface to match the actual response format
 interface StatsByAgent {
   solved_DAILY: number
   solved_WEEKLY: number
@@ -36,7 +36,7 @@ const BarChart: React.FC = () => {
         if (!storedToken) {
           throw new Error('No token found')
         }
-        const response = await fetch('http://localhost:8082/ticket/getMyStats', {
+        const response = await fetch(`${BASE_URL}/ticket/getMyStats`, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
