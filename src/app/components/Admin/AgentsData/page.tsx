@@ -84,7 +84,7 @@ const AgentDataComponent: React.FC = () => {
 
   const handleDelete = async (agent: AgentData) => {
     try {
-      const token = localStorage.getItem("token");
+      const token = localStorage.getItem("email");
       if (!token) {
         throw new Error("No token found");
       }

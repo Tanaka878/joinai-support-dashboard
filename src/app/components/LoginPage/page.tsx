@@ -70,6 +70,7 @@ const Login = () => {
       const data = await response.json();
 
       if (typeof window !== 'undefined') {
+        console.log("tokkkken",data.token)
         localStorage.setItem('token', data.token);
         localStorage.setItem('email', email);
         localStorage.setItem("id", data.id)

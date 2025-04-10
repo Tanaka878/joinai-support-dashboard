@@ -32,7 +32,7 @@ const BarChart: React.FC = () => {
   useEffect(() => {
     const fetchStats = async () => {
       try {
-        const storedToken = localStorage.getItem('token')
+        const storedToken = localStorage.getItem('email')
         if (!storedToken) {
           throw new Error('No token found')
         }
