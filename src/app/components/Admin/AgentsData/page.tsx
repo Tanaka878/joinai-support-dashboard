@@ -26,7 +26,7 @@ const AgentDataComponent: React.FC = () => {
 
   const fetchAgents = async () => {
     try {
-      const token = localStorage.getItem("token");
+      const token = localStorage.getItem("email");
       if (!token) {
         throw new Error("No token found");
       }
@@ -55,7 +55,7 @@ const AgentDataComponent: React.FC = () => {
 
   const handleEdit = async (agent: AgentData) => {
     try {
-      const token = localStorage.getItem("token");
+      const token = localStorage.getItem("email");
       if (!token) {
         throw new Error("No token found");
       }
