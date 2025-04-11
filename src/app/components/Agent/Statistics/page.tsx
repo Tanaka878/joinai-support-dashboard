@@ -25,7 +25,7 @@ const AgentsStats = () => {
       {
         label: "Tickets (%)",
         data: [3, 4, 4, 3.5, 3.5, 7, 14, 11, 5.5, 5, 4.5, 4.5, 4.5, 4, 3, 2.5, 2, 2, 2, 1.5, 1.5, 1.5, 2.5, 1],
-        backgroundColor: "#8BC34A",
+        backgroundColor: "#dbce0f",
         borderWidth: 1,
       },
     ],
@@ -67,7 +67,7 @@ const AgentsStats = () => {
       {
         label: "Tickets",
         data: [950, 3000, 4000, 3000, 2800, 2200, 800],
-        backgroundColor: "#00695C",
+        backgroundColor: "#0000FF",
         borderWidth: 1,
       },
     ],
@@ -106,7 +106,7 @@ const AgentsStats = () => {
 
   return (
     <div className="bg-gray-100 p-6 min-h-screen">
-      <h1 className="text-2xl font-bold text-gray-700 mb-4">Zendesk Support Dashboard</h1>
+      <h1 className="text-2xl font-bold text-black mb-4 justify-around">JOINAI Support </h1>
 
       {/* Stat cards */}
       <div className="grid grid-cols-2 md:grid-cols-5 gap-4 mb-6">

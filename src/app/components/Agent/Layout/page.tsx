@@ -5,6 +5,7 @@ import SideNav from '../SideNav/SideNav';
 import NavBar from '../NavBar/NavBar';
 import { useRouter } from 'next/navigation';
 import AgentsStats from '../Statistics/page';
+import UpdateProfile from '../UpdateProfile /page';
 
 const Layout = () => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(true); 
@@ -50,11 +51,11 @@ const Layout = () => {
       case 'Tickets':
         return <Tickets />;
       case 'Agents':
-        return <AgentsStats />; 
+        return <UpdateProfile />; 
       case 'Statistics':
         return <AgentsStats />; 
       default:
-        return <AgentsStats />;
+        return <UpdateProfile />;
     }
   };
 
