@@ -31,7 +31,7 @@ const Layout: React.FC = () => {
       case 'Agents':
         return < AgentDataComponent/>; 
       
-      case 'Kanban Board':
+      case 'Agent Peformance':
         return <AgentPerformanceDashboard/>;
       case 'Statistics':
         return <TicketList />; 

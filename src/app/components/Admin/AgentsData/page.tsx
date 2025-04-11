@@ -1,4 +1,4 @@
-'use client'
+ 'use client'
 import BASE_URL from "@/app/config/api/api";
 import React, { useEffect, useState } from "react";
 import { FiEdit2, FiTrash2, FiUser } from "react-icons/fi";
