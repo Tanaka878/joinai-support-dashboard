@@ -4,8 +4,7 @@ import Tickets from '../Tickets/page';
 import SideNav from '../SideNav/SideNav';
 import NavBar from '../NavBar/NavBar';
 import { useRouter } from 'next/navigation';
-import AgentDataComponent from '../../Admin/AgentsData/page';
-import Reports from '../../Admin/Reports/page';
+import AgentsStats from '../Statistics/page';
 
 const Layout = () => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(true); 
@@ -51,11 +50,11 @@ const Layout = () => {
       case 'Tickets':
         return <Tickets />;
       case 'Agents':
-        return <Reports />; 
+        return <AgentsStats />; 
       case 'Statistics':
-        return <AgentDataComponent />; 
+        return <AgentsStats />; 
       default:
-        return <Tickets />;
+        return <AgentsStats />;
     }
   };
 
