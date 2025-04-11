@@ -9,6 +9,7 @@ import {
   Tooltip,
   Legend,
   ResponsiveContainer,
+  Cell
 } from "recharts";
 
 const fakeData = {
@@ -61,69 +62,168 @@ const fakeData = {
   ],
 };
 
+const COLORS = {
+  High: '#FF6B6B',
+  Low: '#4ECDC4',
+  Normal: '#FFD166',
+  Urgent: '#FF9F1C',
+  background: '#F8F9FA',
+  card: '#FFFFFF',
+  text: '#2B2D42',
+  accent: '#4361EE'
+};
+
 const AgentPerformanceDashboard = () => {
   return (
-    <div className="p-6 bg-white text-gray-800 min-h-screen">
+    <div className="p-6 bg-gray-50 min-h-screen">
       <div className="max-w-7xl mx-auto">
-        <div className="border-b-2 border-gray-300 pb-4 mb-6">
-          <h1 className="text-3xl font-serif text-center">Agent Performance Dashboard</h1>
+        {/* Header */}
+        <div className="mb-8">
+          <h1 className="text-4xl font-bold text-gray-900 mb-2">Agent Performance</h1>
+          <p className="text-gray-500">Updated: April 11, 2025</p>
         </div>
         
-        {/* Top Section with Chart */}
-        <div className="mb-8 border border-gray-300 rounded p-4 bg-gray-50">
-          <h2 className="text-xl font-serif mb-4 text-center border-b border-gray-300 pb-2">Ticket Updates - Past Week</h2>
-          <ResponsiveContainer width="100%" height={300}>
-            <BarChart data={fakeData.tickets}>
-              <XAxis dataKey="name" />
-              <YAxis />
-              <Tooltip />
-              <Legend />
-              <Bar dataKey="High" fill="#4682B4" />
-              <Bar dataKey="Low" fill="#6B8E23" />
-              <Bar dataKey="Normal" fill="#B8860B" />
-              <Bar dataKey="Urgent" fill="#8B0000" />
-            </BarChart>
-          </ResponsiveContainer>
+        {/* Stats Overview */}
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-8">
+          <div className="bg-white p-6 rounded-xl shadow-sm border border-gray-100">
+            <h3 className="text-sm font-medium text-gray-500 mb-1">Total Agents</h3>
+            <p className="text-3xl font-bold text-gray-900">{fakeData.agents.length}</p>
+          </div>
+          <div className="bg-white p-6 rounded-xl shadow-sm border border-gray-100">
+            <h3 className="text-sm font-medium text-gray-500 mb-1">Avg. FCR Rate</h3>
+            <p className="text-3xl font-bold text-gray-900">
+              {Math.round(fakeData.agents.reduce((acc, agent) => acc + agent.fcr, 0) / fakeData.agents.length)}%
+            </p>
+          </div>
+          <div className="bg-white p-6 rounded-xl shadow-sm border border-gray-100">
+            <h3 className="text-sm font-medium text-gray-500 mb-1">Weekly Tickets</h3>
+            <p className="text-3xl font-bold text-gray-900">
+              {fakeData.agents.reduce((acc, agent) => acc + agent.solvedPastWeek, 0)}
+            </p>
+          </div>
+          <div className="bg-white p-6 rounded-xl shadow-sm border border-gray-100">
+            <h3 className="text-sm font-medium text-gray-500 mb-1">Open Tickets</h3>
+            <p className="text-3xl font-bold text-gray-900">
+              {fakeData.agents.reduce((acc, agent) => acc + agent.openTickets, 0)}
+            </p>
+          </div>
+        </div>
+        
+        {/* Chart Section */}
+        <div className="mb-8 bg-white p-6 rounded-xl shadow-sm border border-gray-100">
+          <div className="flex justify-between items-center mb-6">
+            <h2 className="text-xl font-semibold text-gray-900">Ticket Priority Distribution</h2>
+            <div className="flex space-x-2">
+              <button className="px-3 py-1 text-sm bg-blue-50 text-blue-600 rounded-md">Week</button>
+              <button className="px-3 py-1 text-sm text-gray-500 hover:bg-gray-50 rounded-md">Month</button>
+              <button className="px-3 py-1 text-sm text-gray-500 hover:bg-gray-50 rounded-md">Quarter</button>
+            </div>
+          </div>
+          <div className="h-80">
+            <ResponsiveContainer width="100%" height="100%">
+              <BarChart data={fakeData.tickets}>
+                <XAxis 
+                  dataKey="name" 
+                  axisLine={false} 
+                  tickLine={false} 
+                  tick={{ fill: '#6B7280' }}
+                />
+                <YAxis 
+                  axisLine={false} 
+                  tickLine={false} 
+                  tick={{ fill: '#6B7280' }}
+                />
+                <Tooltip 
+                  contentStyle={{
+                    backgroundColor: '#FFFFFF',
+                    border: '1px solid #E5E7EB',
+                    borderRadius: '0.5rem',
+                    boxShadow: '0 1px 3px rgba(0,0,0,0.1)'
+                  }}
+                />
+                <Legend 
+                  wrapperStyle={{ paddingTop: '20px' }}
+                />
+                <Bar dataKey="High" fill={COLORS.High} radius={[4, 4, 0, 0]}>
+                  {fakeData.tickets.map((entry, index) => (
+                    <Cell key={`cell-${index}`} fill={COLORS.High} />
+                  ))}
+                </Bar>
+                <Bar dataKey="Low" fill={COLORS.Low} radius={[4, 4, 0, 0]}>
+                  {fakeData.tickets.map((entry, index) => (
+                    <Cell key={`cell-${index}`} fill={COLORS.Low} />
+                  ))}
+                </Bar>
+                <Bar dataKey="Normal" fill={COLORS.Normal} radius={[4, 4, 0, 0]}>
+                  {fakeData.tickets.map((entry, index) => (
+                    <Cell key={`cell-${index}`} fill={COLORS.Normal} />
+                  ))}
+                </Bar>
+                <Bar dataKey="Urgent" fill={COLORS.Urgent} radius={[4, 4, 0, 0]}>
+                  {fakeData.tickets.map((entry, index) => (
+                    <Cell key={`cell-${index}`} fill={COLORS.Urgent} />
+                  ))}
+                </Bar>
+              </BarChart>
+            </ResponsiveContainer>
+          </div>
         </div>
         
         {/* FCR Rate Section */}
-        <div className="mb-8 border border-gray-300 rounded p-4 bg-gray-50">
-          <h2 className="text-xl font-serif mb-4 text-center border-b border-gray-300 pb-2">One-touch Ticket Resolution Rate (FCR)</h2>
-          <table className="w-full border-collapse">
-            <thead>
-              <tr className="bg-gray-200">
-                <th className="border border-gray-300 p-2 text-left">Agent</th>
-                <th className="border border-gray-300 p-2 text-center">Photo</th>
-                <th className="border border-gray-300 p-2 text-right">FCR Rate</th>
-              </tr>
-            </thead>
-            <tbody>
-              {fakeData.agents.map((agent) => (
-                <tr key={agent.name} className="hover:bg-gray-100">
-                  <td className="border border-gray-300 p-2">{agent.name}</td>
-                  <td className="border border-gray-300 p-2 text-center">
-                    <div className="flex justify-center">
-                      <Image
-                        width={32}
-                        height={32}
-                        src={agent.photo}
-                        alt={agent.name}
-                        className="w-8 h-8 rounded-full"
-                      />
-                    </div>
-                  </td>
-                  <td className="border border-gray-300 p-2 text-right font-mono">{agent.fcr}%</td>
+        <div className="mb-8 bg-white p-6 rounded-xl shadow-sm border border-gray-100">
+          <h2 className="text-xl font-semibold text-gray-900 mb-6">First Contact Resolution (FCR) Rates</h2>
+          <div className="overflow-x-auto">
+            <table className="w-full">
+              <thead>
+                <tr className="border-b border-gray-200">
+                  <th className="pb-3 text-left text-sm font-medium text-gray-500">Agent</th>
+                  <th className="pb-3 text-left text-sm font-medium text-gray-500">Photo</th>
+                  <th className="pb-3 text-right text-sm font-medium text-gray-500">FCR Rate</th>
+                  <th className="pb-3 text-right text-sm font-medium text-gray-500">Progress</th>
                 </tr>
-              ))}
-            </tbody>
-          </table>
+              </thead>
+              <tbody>
+                {fakeData.agents.map((agent) => (
+                  <tr key={agent.name} className="border-b border-gray-100 last:border-0 hover:bg-gray-50">
+                    <td className="py-4 text-sm font-medium text-gray-900">{agent.name}</td>
+                    <td className="py-4">
+                      <div className="flex items-center">
+                        <Image
+                          width={32}
+                          height={32}
+                          src={agent.photo}
+                          alt={agent.name}
+                          className="w-8 h-8 rounded-full"
+                        />
+                      </div>
+                    </td>
+                    <td className="py-4 text-right text-sm font-mono font-medium text-gray-900">{agent.fcr}%</td>
+                    <td className="py-4 text-right">
+                      <div className="flex justify-end">
+                        <div className="w-full max-w-xs h-2 bg-gray-200 rounded-full overflow-hidden">
+                          <div 
+                            className="h-full rounded-full" 
+                            style={{
+                              width: `${agent.fcr}%`,
+                              backgroundColor: agent.fcr > 75 ? COLORS.High : agent.fcr > 50 ? COLORS.Normal : COLORS.Urgent
+                            }}
+                          />
+                        </div>
+                      </div>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
         </div>
         
-        {/* Agent Details Section */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+        {/* Agent Cards */}
+        <h2 className="text-xl font-semibold text-gray-900 mb-4">Agent Details</h2>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
           {fakeData.agents.map((agent) => (
-            <div key={agent.name} className="border border-gray-300 rounded p-4 bg-gray-50">
-              <div className="flex items-center border-b border-gray-300 pb-2 mb-4">
+            <div key={agent.name} className="bg-white p-6 rounded-xl shadow-sm border border-gray-100">
+              <div className="flex items-center mb-6">
                 <Image
                   width={48}
                   height={48}
@@ -131,53 +231,48 @@ const AgentPerformanceDashboard = () => {
                   alt={agent.name}
                   className="w-12 h-12 rounded-full mr-4"
                 />
-                <h2 className="text-xl font-serif">{agent.name}</h2>
+                <div>
+                  <h3 className="text-lg font-semibold text-gray-900">{agent.name}</h3>
+                  <p className="text-sm text-gray-500">{agent.openTickets} open tickets</p>
+                </div>
               </div>
               
-              <table className="w-full mb-4">
-                <tbody>
-                  <tr>
-                    <td className="py-1 font-medium">Solved (7 days):</td>
-                    <td className="py-1 text-right font-mono">{agent.solvedPastWeek}</td>
-                  </tr>
-                  <tr>
-                    <td className="py-1 font-medium">Solved (30 days):</td>
-                    <td className="py-1 text-right font-mono">{agent.solvedPastMonth}</td>
-                  </tr>
-                  <tr>
-                    <td className="py-1 font-medium">Open tickets:</td>
-                    <td className="py-1 text-right font-mono">{agent.openTickets}</td>
-                  </tr>
-                </tbody>
-              </table>
+              <div className="grid grid-cols-3 gap-4 mb-6">
+                <div className="text-center">
+                  <p className="text-sm text-gray-500">Weekly</p>
+                  <p className="text-xl font-bold text-gray-900">{agent.solvedPastWeek}</p>
+                </div>
+                <div className="text-center">
+                  <p className="text-sm text-gray-500">Monthly</p>
+                  <p className="text-xl font-bold text-gray-900">{agent.solvedPastMonth}</p>
+                </div>
+                <div className="text-center">
+                  <p className="text-sm text-gray-500">FCR</p>
+                  <p className="text-xl font-bold" style={{
+                    color: agent.fcr > 75 ? COLORS.High : agent.fcr > 50 ? COLORS.Normal : COLORS.Urgent
+                  }}>{agent.fcr}%</p>
+                </div>
+              </div>
               
               {agent.oldestTickets.length > 0 && (
-                <div className="mt-2 border-t border-gray-300 pt-2">
-                  <h3 className="font-medium mb-2">Oldest Assigned Tickets:</h3>
-                  <table className="w-full border-collapse">
-                    <thead>
-                      <tr className="bg-gray-200">
-                        <th className="border border-gray-300 p-1 text-left">ID</th>
-                        <th className="border border-gray-300 p-1 text-right">Created</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {agent.oldestTickets.map((ticket) => (
-                        <tr key={ticket.id} className="hover:bg-gray-100">
-                          <td className="border border-gray-300 p-1 font-mono">{ticket.id}</td>
-                          <td className="border border-gray-300 p-1 text-right">{ticket.createdAt}</td>
-                        </tr>
-                      ))}
-                    </tbody>
-                  </table>
+                <div className="border-t border-gray-100 pt-4">
+                  <h4 className="text-sm font-medium text-gray-500 mb-3">Oldest Assigned Tickets</h4>
+                  <div className="space-y-2">
+                    {agent.oldestTickets.map((ticket) => (
+                      <div key={ticket.id} className="flex justify-between items-center p-3 bg-gray-50 rounded-lg">
+                        <span className="text-sm font-mono text-gray-900">#{ticket.id}</span>
+                        <span className="text-sm text-gray-500">{ticket.createdAt}</span>
+                      </div>
+                    ))}
+                  </div>
                 </div>
               )}
             </div>
           ))}
         </div>
         
-        <div className="mt-8 text-center text-sm text-gray-500 border-t border-gray-300 pt-4">
-          Agent Performance Dashboard • Updated: April 11, 2025
+        <div className="text-center text-sm text-gray-500 pt-4 border-t border-gray-200">
+          © {new Date().getFullYear()} Agent Performance Dashboard
         </div>
       </div>
     </div>
