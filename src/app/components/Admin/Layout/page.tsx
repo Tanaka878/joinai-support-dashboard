@@ -5,7 +5,6 @@ import SideNav from '../AdminNavigation/AdminNavigation';
 import { useRouter } from 'next/navigation';
 import AgentDataComponent from '../AgentsData/page';
 import TicketList from '../TicketData/page';
-import Reports from '../Reports/page';
 
 const Layout: React.FC = () => { 
   const [currentView, setCurrentView] = useState('Dashboard');
@@ -29,9 +28,9 @@ const Layout: React.FC = () => {
       case 'Tickets':
         return <TicketList />;
       case 'Agents':
-        return <Reports />; 
+        return < AgentDataComponent/>; 
       case 'Statistics':
-        return <AgentDataComponent />; 
+        return <TicketList />; 
       default:
         return <TicketList />;
     }

@@ -68,7 +68,7 @@ const Settings: React.FC = () => {
           </select>
         </div>
 
-        {/* Password */}
+        {/* Password */}••••
         <div>
           <label className="block text-sm font-medium mb-2">Update Password</label>
           <input
