@@ -7,6 +7,7 @@ import { useRouter } from 'next/navigation';
 import AgentsStats from '../Statistics/page';
 import UpdateProfile from '../UpdateProfile /page';
 import TicketNotifications from '../Notifications/page';
+import Settings from '../Settings/page';
 
 const Layout = () => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(true); 
@@ -55,8 +56,12 @@ const Layout = () => {
         return <UpdateProfile />; 
       case 'Statistics':
         return <AgentsStats />; 
-        case 'Notifications':
-          return <TicketNotifications/>
+      case 'Notifications':
+          return <TicketNotifications/>;
+        
+      case 'Settings':
+        return <Settings/>;
+
       default:
         return <UpdateProfile />;
     }
