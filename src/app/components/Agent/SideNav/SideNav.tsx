@@ -12,7 +12,7 @@ const SideNav: React.FC<SideNavProps> = ({ isSidebarOpen, onSelectPage }) => {
     { icon: <MdDashboard className="w-5 h-5" />, label: 'Dashboard', href: '/dashboard' },
     { icon: <FaTicketAlt className="w-5 h-5" />, label: 'Tickets', href: '/components/Admin/Tickets' },
     { icon: <FaChartBar className="w-5 h-5" />, label: 'Statistics', href: '/statistics' },
-    { icon: <FaClipboardList className="w-5 h-5" />, label: 'Reports', href: '/reports' },
+    { icon: <FaClipboardList className="w-5 h-5" />, label: 'Update Profile', href: '/reports' },
     { icon: <FaCalendarAlt className="w-5 h-5" />, label: 'Schedule', href: '/schedule' },
     { icon: <FaBell className="w-5 h-5" />, label: 'Notifications', href: '/notifications' },
     { icon: <MdSettings className="w-5 h-5" />, label: 'Settings', href: '/settings' },

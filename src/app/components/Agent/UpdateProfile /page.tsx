@@ -1,3 +1,4 @@
+"use client"
 import BASE_URL from '@/app/config/api/api';
 import React, { useState, useEffect } from 'react';
 
@@ -11,7 +12,7 @@ const UpdateProfile = () => {
     state: '',
     zip: '',
     country: '',
-    password: '',  // Added password field
+    password: '',  
   });
 
   useEffect(() => {
