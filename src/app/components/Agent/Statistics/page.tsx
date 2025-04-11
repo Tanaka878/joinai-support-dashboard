@@ -1,3 +1,4 @@
+"use client";
 import React from "react";
 import {
   Chart as ChartJS,
@@ -16,7 +17,7 @@ ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend)
 
 type ChartOptionsType = ChartOptions<"bar">;
 
-const AgentsStats: React.FC = () => {
+const AgentsStats = () => {
   // Data for hourly chart
   const hourlyChartData = {
     labels: Array.from({ length: 24 }, (_, i) => i.toString()),
