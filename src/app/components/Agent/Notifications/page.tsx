@@ -1,3 +1,4 @@
+"use client"
 import BASE_URL from '@/app/config/api/api';
 import React, { useState, useEffect } from 'react';
 
