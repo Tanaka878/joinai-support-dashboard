@@ -17,6 +17,13 @@ const fakeData = {
     { name: "Alex", High: 45, Low: 35, Normal: 25, Urgent: 20 },
     { name: "Ben Newell", High: 40, Low: 30, Normal: 20, Urgent: 15 },
     { name: "Helena", High: 38, Low: 28, Normal: 18, Urgent: 12 },
+    { name: "Lus", High: 42, Low: 32, Normal: 22, Urgent: 17 },
+    { name: "Beewell", High: 40, Low: 30, Normal: 20, Urgent: 15 },
+    { name: "Hlena", High: 38, Low: 28, Normal: 18, Urgent: 12 },
+    { name: "Lu", High: 42, Low: 32, Normal: 22, Urgent: 17 },
+
+    { name: "Ben Newell", High: 40, Low: 30, Normal: 20, Urgent: 15 },
+    { name: "Helena", High: 38, Low: 28, Normal: 18, Urgent: 12 },
     { name: "Luis", High: 42, Low: 32, Normal: 22, Urgent: 17 },
   ],
   agents: [
@@ -254,19 +261,7 @@ const AgentPerformanceDashboard = () => {
                 </div>
               </div>
               
-              {agent.oldestTickets.length > 0 && (
-                <div className="border-t border-gray-100 pt-4">
-                  <h4 className="text-sm font-medium text-gray-500 mb-3">Oldest Assigned Tickets</h4>
-                  <div className="space-y-2">
-                    {agent.oldestTickets.map((ticket) => (
-                      <div key={ticket.id} className="flex justify-between items-center p-3 bg-gray-50 rounded-lg">
-                        <span className="text-sm font-mono text-gray-900">#{ticket.id}</span>
-                        <span className="text-sm text-gray-500">{ticket.createdAt}</span>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-              )}
+              
             </div>
           ))}
         </div>

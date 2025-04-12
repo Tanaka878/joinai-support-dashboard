@@ -1,6 +1,6 @@
 import React from 'react';
 import { BsKanban } from "react-icons/bs";
-import { FaTicketAlt, FaUsers, FaChartBar, FaClipboardList, FaCalendarAlt, FaBell, FaUserShield } from "react-icons/fa";
+import { FaTicketAlt, FaUsers, FaChartBar, FaClipboardList, FaBell, FaUserShield } from "react-icons/fa";
 import { MdDashboard, MdSettings } from "react-icons/md";
 
 interface SideNavProps {
@@ -16,9 +16,8 @@ const AdminNavigation: React.FC<SideNavProps> = ({ isSidebarOpen, onSelectPage }
     { icon: <FaChartBar className="w-5 h-5" />, label: 'Statistics', href: '/statistics' },
     { icon: <BsKanban className="w-5 h-5" />, label: 'Agent Peformance', href: '/kanban' },
     { icon: <FaClipboardList className="w-5 h-5" />, label: 'Reports', href: '/reports' },
-    { icon: <FaCalendarAlt className="w-5 h-5" />, label: 'CREATE', href: '/schedule' },
+    { icon: <FaUserShield className="w-5 h-5" />, label: 'CREATE', href: '/schedule' },
     { icon: <FaBell className="w-5 h-5" />, label: 'Update Profile', href: '/notifications' },
-    { icon: <FaUserShield className="w-5 h-5" />, label: 'Admin Access', href: '/admin' },
     { icon: <MdSettings className="w-5 h-5" />, label: 'Settings', href: '/settings' },
   ];
 
