@@ -6,6 +6,9 @@ import { useRouter } from 'next/navigation';
 import AgentDataComponent from '../AgentsData/page';
 import TicketList from '../TicketData/page';
 import AgentPerformanceDashboard from '../AgentPeformance/page';
+import UpdateProfile from '../../Agent/UpdateProfile /page';
+import Settings from '../../Agent/Settings/page';
+import UserCreation from '../UserCreation/page';
 
 const Layout: React.FC = () => { 
   const [currentView, setCurrentView] = useState('Dashboard');
@@ -33,8 +36,14 @@ const Layout: React.FC = () => {
       
       case 'Agent Peformance':
         return <AgentPerformanceDashboard/>;
-      case 'Statistics':
-        return <TicketList />; 
+
+      case 'Settings':
+        return <Settings/>
+      case 'Update Profile':
+        return <UpdateProfile />; 
+
+      case 'CREATE':
+        return <UserCreation/>
       default:
         return <TicketList />;
     }
