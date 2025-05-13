@@ -1,6 +1,6 @@
 import React from 'react';
 import { BsKanban } from "react-icons/bs";
-import { FaTicketAlt, FaUsers, FaChartBar, FaClipboardList, FaBell, FaUserShield } from "react-icons/fa";
+import { FaTicketAlt, FaUsers, FaChartBar, FaBell, FaUserShield } from "react-icons/fa";
 import { MdDashboard, MdSettings } from "react-icons/md";
 
 interface SideNavProps {
