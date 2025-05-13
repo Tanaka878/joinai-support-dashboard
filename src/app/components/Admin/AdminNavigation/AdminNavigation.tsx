@@ -15,7 +15,6 @@ const AdminNavigation: React.FC<SideNavProps> = ({ isSidebarOpen, onSelectPage }
     { icon: <FaUsers className="w-5 h-5" />, label: 'Agents', href: '/agents' },
     { icon: <FaChartBar className="w-5 h-5" />, label: 'Statistics', href: '/statistics' },
     { icon: <BsKanban className="w-5 h-5" />, label: 'Agent Peformance', href: '/kanban' },
-    { icon: <FaClipboardList className="w-5 h-5" />, label: 'Reports', href: '/reports' },
     { icon: <FaUserShield className="w-5 h-5" />, label: 'CREATE', href: '/schedule' },
     { icon: <FaBell className="w-5 h-5" />, label: 'Update Profile', href: '/notifications' },
     { icon: <MdSettings className="w-5 h-5" />, label: 'Settings', href: '/settings' },
