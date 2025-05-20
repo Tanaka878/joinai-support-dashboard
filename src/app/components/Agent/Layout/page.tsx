@@ -5,7 +5,7 @@ import SideNav from '../SideNav/SideNav';
 import NavBar from '../NavBar/NavBar';
 import { useRouter } from 'next/navigation';
 import AgentsStats from '../Statistics/page';
-import UpdateProfile from '../UpdateProfile /page';
+import UpdateProfile from '../UpdateProfile/page';
 import TicketNotifications from '../Notifications/page';
 import Settings from '../Settings/page';
 
