@@ -1,5 +1,5 @@
 import React from 'react';
-import HorizontalBarsIcon from '../StatsBar/page';
+import HorizontalBarsIcon from '../Views/StatsBar';
 import { FaBell } from 'react-icons/fa6';
 import Image from 'next/image';
 

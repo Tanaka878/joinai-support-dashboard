@@ -6,8 +6,8 @@ import { useRouter } from 'next/navigation';
 import AgentDataComponent from '../AgentsData/page';
 import TicketList from '../TicketData/page';
 import AgentPerformanceDashboard from '../AgentPeformance/page';
-import UpdateProfile from '../../Agent/UpdateProfile/page';
-import Settings from '../../Agent/Settings/page';
+import UpdateProfile from '../../Agent/Views/UpdateProfile';
+import Settings from '../../Agent/Views/Settings';
 import UserCreation from '../UserCreation/page';
 
 const Layout: React.FC = () => { 

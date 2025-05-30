@@ -1,7 +1,7 @@
 'use client'
 import React, { useEffect, useState } from "react";
 import BASE_URL from "@/app/config/api/api";
-import TicketFilter from "../TicketFilterDisplay/TicketFilter";
+import TicketFilter from "./TicketFilter";
 
 type Ticket = {
   id: string;

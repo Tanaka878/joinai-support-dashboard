@@ -1,13 +1,13 @@
 'use client';
 import React, { useState } from 'react';
-import Tickets from '../Tickets/page';
-import SideNav from '../SideNav/SideNav';
-import NavBar from '../NavBar/NavBar';
+import Tickets from '../Views/Tickets';
+import SideNav from '../Views/SideNav';
+import NavBar from '../Views/NavBar';
 import { useRouter } from 'next/navigation';
-import AgentsStats from '../Statistics/page';
-import UpdateProfile from '../UpdateProfile/page';
-import TicketNotifications from '../Notifications/page';
-import Settings from '../Settings/page';
+import AgentsStats from '../Views/Statistics';
+import UpdateProfile from '../Views/UpdateProfile';
+import TicketNotifications from '../Views/Notifications';
+import Settings from '../Views/Settings';
 
 const Layout = () => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(true); 
