@@ -1,5 +1,5 @@
 import React from 'react';
-import { FaTicketAlt, FaChartBar, FaClipboardList, FaCalendarAlt, FaBell } from "react-icons/fa";
+import { FaTicketAlt, FaChartBar, FaClipboardList, FaBell } from "react-icons/fa";
 import { MdDashboard, MdSettings } from "react-icons/md";
 
 interface SideNavProps {

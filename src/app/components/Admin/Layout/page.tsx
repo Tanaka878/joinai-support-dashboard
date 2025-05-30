@@ -1,6 +1,6 @@
 'use client';
 import React, { useState } from 'react';
-import NavBar from '../../Agent/NavBar/NavBar';
+import NavBar from '../../Agent/Views/NavBar';
 import SideNav from '../AdminNavigation/AdminNavigation';
 import { useRouter } from 'next/navigation';
 import AgentDataComponent from '../AgentsData/page';
