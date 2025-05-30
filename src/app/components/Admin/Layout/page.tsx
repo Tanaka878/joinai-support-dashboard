@@ -1,14 +1,14 @@
 'use client';
 import React, { useState } from 'react';
 import NavBar from '../../Agent/Views/NavBar';
-import SideNav from '../AdminNavigation/AdminNavigation';
+import SideNav from '../Views/AdminNavigation';
 import { useRouter } from 'next/navigation';
-import AgentDataComponent from '../AgentsData/page';
-import TicketList from '../TicketData/page';
-import AgentPerformanceDashboard from '../AgentPeformance/page';
+import AgentDataComponent from '../Views/AgentsData';
+import TicketList from '../Views/TicketData';
+import AgentPerformanceDashboard from '../Views/AgentPerformance';
 import UpdateProfile from '../../Agent/Views/UpdateProfile';
 import Settings from '../../Agent/Views/Settings';
-import UserCreation from '../UserCreation/page';
+import UserCreation from '../Views/UserCreation';
 
 const Layout: React.FC = () => { 
   const [currentView, setCurrentView] = useState('Dashboard');
