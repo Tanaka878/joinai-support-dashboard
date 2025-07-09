@@ -52,42 +52,62 @@ const TicketNotifications: React.FC = () => {
 
   return (
     <div style={{ display: 'flex', overflowX: 'auto', padding: '16px', gap: '16px' }}>
-      {tickets.map((ticket) => (
+      {tickets.length === 0 ? (
         <div
-          key={ticket.id}
           style={{
-            display: 'flex',
-            flexDirection: 'column',
             minWidth: '250px',
             backgroundColor: '#f9fafb',
             borderRadius: '8px',
-            padding: '12px',
+            padding: '24px',
             boxShadow: '0 2px 8px rgba(0, 0, 0, 0.1)',
+            textAlign: 'center',
+            color: '#6b7280',
+            fontWeight: 500,
+            fontSize: '16px',
+            margin: '0 auto',
+            width: '100%',
           }}
         >
-          <h3 style={{ fontSize: '16px', fontWeight: 'bold', marginBottom: '8px' }}>{ticket.subject}</h3>
-          <p style={{ fontSize: '14px', marginBottom: '8px' }}>
-            Priority: <strong>{ticket.priority}</strong>
-          </p>
-          <p style={{ fontSize: '14px', marginBottom: '8px' }}>
-            Category: <strong>{ticket.category}</strong>
-          </p>
-          <p style={{ fontSize: '14px', marginBottom: '8px' }}>
-            Status:{' '}
-            <span
-              style={{
-                color: ticket.status === 'OPEN' ? 'green' : ticket.status === 'IN_PROGRESS' ? 'orange' : 'gray',
-              }}
-            >
-              {ticket.status}
-            </span>
-          </p>
-          <p style={{ fontSize: '12px', marginBottom: '8px' }}>{ticket.content}</p>
-          <span style={{ fontSize: '12px', color: '#9ca3af' }}>
-            Updated: {new Date(ticket.updatedAt).toLocaleString()}
-          </span>
+          No notifications to display.
         </div>
-      ))}
+      ) : (
+        tickets.map((ticket) => (
+          <div
+            key={ticket.id}
+            style={{
+              display: 'flex',
+              flexDirection: 'column',
+              minWidth: '250px',
+              backgroundColor: '#f9fafb',
+              borderRadius: '8px',
+              padding: '12px',
+              boxShadow: '0 2px 8px rgba(0, 0, 0, 0.1)',
+            }}
+          >
+            <h3 style={{ fontSize: '16px', fontWeight: 'bold', marginBottom: '8px' }}>{ticket.subject}</h3>
+            <p style={{ fontSize: '14px', marginBottom: '8px' }}>
+              Priority: <strong>{ticket.priority}</strong>
+            </p>
+            <p style={{ fontSize: '14px', marginBottom: '8px' }}>
+              Category: <strong>{ticket.category}</strong>
+            </p>
+            <p style={{ fontSize: '14px', marginBottom: '8px' }}>
+              Status:{' '}
+              <span
+                style={{
+                  color: ticket.status === 'OPEN' ? 'green' : ticket.status === 'IN_PROGRESS' ? 'orange' : 'gray',
+                }}
+              >
+                {ticket.status}
+              </span>
+            </p>
+            <p style={{ fontSize: '12px', marginBottom: '8px' }}>{ticket.content}</p>
+            <span style={{ fontSize: '12px', color: '#9ca3af' }}>
+              Updated: {new Date(ticket.updatedAt).toLocaleString()}
+            </span>
+          </div>
+        ))
+      )}
     </div>
   );
 };

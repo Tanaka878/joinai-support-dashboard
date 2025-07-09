@@ -15,13 +15,44 @@ const UpdateProfile = () => {
     password: '',  
   });
 
+  // Fetch profile data on mount
   useEffect(() => {
-    // Preload email from local storage
-    const storedEmail = localStorage.getItem('email');
-    setFormData((prevData) => ({
-      ...prevData,
-      email: storedEmail || '',
-    }));
+    const fetchProfile = async () => {
+      const storedEmail = localStorage.getItem('email');
+      console.log('Stored email:', storedEmail);
+      if (!storedEmail) return;
+
+      try {
+        const response = await fetch(`${BASE_URL}/admin/getProfileData`, {
+          method: 'POST', 
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ email: storedEmail }), // <-- Send email in body
+        });
+
+        if (!response.ok) {
+          throw new Error('Failed to fetch profile data');
+        }
+
+        const data = await response.json();
+        setFormData({
+          name: data.name || '',
+          email: data.email || storedEmail,
+          phone: data.phone || '',
+          address: data.address || '',
+          city: data.city || '',
+          state: data.state || '',
+          zip: data.zip || '',
+          country: data.country || '',
+          password: '', // Never prefill password for security
+        });
+      } catch (error) {
+        console.error('Error fetching profile data:', error);
+      }
+    };
+
+    fetchProfile();
   }, []);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
