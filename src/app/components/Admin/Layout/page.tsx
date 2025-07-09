@@ -18,7 +18,15 @@ const Layout: React.FC = () => {
   const router = useRouter();
   
   const toggleModal = () => setIsModalOpen(!isModalOpen);
-  const toggleNotifications = () => setIsNotificationTabOpen(!isNotificationTabOpen);
+  const toggleNotifications = () => {
+    if (!isNotificationTabOpen) {
+      setIsSidebarOpen(false); // Collapse sidebar when opening notifications
+      setIsNotificationTabOpen(true);
+    } else {
+      setIsNotificationTabOpen(false);
+      setIsSidebarOpen(true); // Open sidebar when closing notifications
+    }
+  };
   
   function Logout() {
     setIsSidebarOpen(true);

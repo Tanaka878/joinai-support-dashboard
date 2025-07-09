@@ -27,10 +27,12 @@ const Layout = () => {
   };
   
   const toggleNotifications = () => {
-    setIsSidebarOpen(false)
     setIsNotificationTabOpen((prev) => {
       if (!prev) {
-        setIsModalOpen(false); 
+        setIsSidebarOpen(false); // Collapse sidebar when opening notifications
+        setIsModalOpen(false);
+      } else {
+        setIsSidebarOpen(true); // Expand sidebar when closing notifications
       }
       return !prev;
     });

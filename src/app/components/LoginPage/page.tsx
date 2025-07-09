@@ -158,7 +158,6 @@ const Login = () => {
                 onChange={(e) => setPassword(e.target.value)}
                 className="w-full p-3 border text-black border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500 slide-in opacity-0 translate-x-full transition-all duration-300"
                 required
-                disabled={loading}
               />
             </div>
 
