@@ -13,7 +13,7 @@ const Layout = () => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(true); 
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isNotificationTabOpen, setIsNotificationTabOpen] = useState(false);
-    const [currentView, setCurrentView] = useState('Dashboard');
+    const [currentView, setCurrentView] = useState('Tickets'); // Set default to 'Tickets'
   
   const router = useRouter();
   
@@ -29,10 +29,10 @@ const Layout = () => {
   const toggleNotifications = () => {
     setIsNotificationTabOpen((prev) => {
       if (!prev) {
-        setIsSidebarOpen(false); // Collapse sidebar when opening notifications
+        setIsSidebarOpen(false); 
         setIsModalOpen(false);
       } else {
-        setIsSidebarOpen(true); // Expand sidebar when closing notifications
+        setIsSidebarOpen(true); 
       }
       return !prev;
     });
@@ -86,6 +86,7 @@ const Layout = () => {
           <SideNav
             isSidebarOpen={isSidebarOpen}
             onSelectPage={(view) => setCurrentView(view)}
+            currentView={currentView} 
           />
         </div>
         

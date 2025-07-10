@@ -11,7 +11,6 @@ const Settings: React.FC = () => {
   const [signature, setSignature] = useState('');
 
   const handleSave = () => {
-    // Handle save logic here (e.g., API call)
     alert('Settings saved successfully!');
   };
 
