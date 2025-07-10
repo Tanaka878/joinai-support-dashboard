@@ -5,10 +5,10 @@ const Settings: React.FC = () => {
   const [theme, setTheme] = useState<'light' | 'dark'>('light');
   const [emailNotifications, setEmailNotifications] = useState(true);
   const [smsNotifications, setSmsNotifications] = useState(false);
+  const [inAppNotifications, setInAppNotifications] = useState(false);
   const [language, setLanguage] = useState('English');
-  const [password, setPassword] = useState('');
-  const [timezone, setTimezone] = useState('UTC');
-  const [profileVisibility, setProfileVisibility] = useState<'public' | 'private'>('public');
+  const [defaultTicketView, setDefaultTicketView] = useState<'list' | 'kanban'>('list');
+  const [signature, setSignature] = useState('');
 
   const handleSave = () => {
     // Handle save logic here (e.g., API call)
@@ -32,9 +32,9 @@ const Settings: React.FC = () => {
           </select>
         </div>
 
-        {/* Notifications */}
+        {/* Notification Preferences */}
         <div>
-          <label className="block text-sm font-medium mb-2">Notifications</label>
+          <label className="block text-sm font-medium mb-2">Notification Preferences</label>
           <div className="flex items-center mb-2">
             <input
               type="checkbox"
@@ -44,7 +44,7 @@ const Settings: React.FC = () => {
             />
             <span>Email Notifications</span>
           </div>
-          <div className="flex items-center">
+          <div className="flex items-center mb-2">
             <input
               type="checkbox"
               checked={smsNotifications}
@@ -52,6 +52,15 @@ const Settings: React.FC = () => {
               className="mr-2"
             />
             <span>SMS Notifications</span>
+          </div>
+          <div className="flex items-center">
+            <input
+              type="checkbox"
+              checked={inAppNotifications}
+              onChange={(e) => setInAppNotifications(e.target.checked)}
+              className="mr-2"
+            />
+            <span>In-app Notifications</span>
           </div>
         </div>
 
@@ -70,45 +79,34 @@ const Settings: React.FC = () => {
           </select>
         </div>
 
-        {/* Timezone */}
+       
+
+        {/* Default Ticket View */}
         <div>
-          <label className="block text-sm font-medium mb-2">Timezone</label>
+          <label className="block text-sm font-medium mb-2">Default Ticket View</label>
           <select
-            value={timezone}
-            onChange={(e) => setTimezone(e.target.value)}
+            value={defaultTicketView}
+            onChange={(e) => setDefaultTicketView(e.target.value as 'list' | 'kanban')}
             className="w-full p-3 border rounded-lg"
           >
-            <option value="UTC">UTC</option>
-            <option value="PST">Pacific Standard Time (PST)</option>
-            <option value="EST">Eastern Standard Time (EST)</option>
-            <option value="CET">Central European Time (CET)</option>
+            <option value="list">List</option>
+            <option value="kanban">Kanban</option>
           </select>
         </div>
 
-        {/* Profile Visibility */}
+        {/* Signature */}
         <div>
-          <label className="block text-sm font-medium mb-2">Profile Visibility</label>
-          <select
-            value={profileVisibility}
-            onChange={(e) => setProfileVisibility(e.target.value as 'public' | 'private')}
-            className="w-full p-3 border rounded-lg"
-          >
-            <option value="public">Public</option>
-            <option value="private">Private</option>
-          </select>
-        </div>
-
-        {/* Password */}
-        <div>
-          <label className="block text-sm font-medium mb-2">Update Password</label>
-          <input
-            type="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            placeholder="Enter new password"
+          <label className="block text-sm font-medium mb-2">Signature</label>
+          <textarea
+            value={signature}
+            onChange={(e) => setSignature(e.target.value)}
+            placeholder="Set your default reply signature"
             className="w-full p-3 border rounded-lg"
           />
         </div>
+
+      
+        
 
         {/* Save Button */}
         <button
