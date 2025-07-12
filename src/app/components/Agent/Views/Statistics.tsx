@@ -15,12 +15,7 @@ ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend)
 
 
 const AgentsStats = () => {
-  // Chart: Tickets per hour
-
-
-  // Chart: Tickets per day
-
-
+ 
   return (
     <div className="bg-gray-100 p-6 min-h-screen">
       <h1 className="text-2xl font-bold text-black mb-4">JOINAI Support</h1>
