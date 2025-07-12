@@ -73,7 +73,7 @@ const Settings: React.FC = () => {
                         <span className="text-sm font-medium">Light</span>
                       </button>
                       <button
-                        onClick={() => setTheme('dark')}
+                        //onClick={() => setTheme('dark')}
                         className={`p-4 rounded-lg border-2 transition-all ${
                           theme === 'dark' 
                             ? 'border-blue-500 bg-blue-50' 
