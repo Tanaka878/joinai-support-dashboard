@@ -10,7 +10,7 @@ interface NavBar {
 
 const NavBar: React.FC<NavBar> = ({ onModalChange, showNotifications }) => {
   return (
-    <div className="bg-gray-600 h-16 w-full fixed top-0 left-0 flex items-center justify-between px-4 shadow-md z-10">
+    <div className="bg-gray-900 h-16 w-full fixed top-0 left-0 flex items-center justify-between px-4 shadow-md z-10">
       {/* Left Section - Responsive */}
       <div className="flex items-center text-white space-x-4">
         <HorizontalBarsIcon />
