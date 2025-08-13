@@ -39,6 +39,7 @@ const Tickets: React.FC = () => {
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [authToken, setAuthToken] = useState("")
+  const [comment, setComment] = useState("");
 
 
 
@@ -117,7 +118,8 @@ const Tickets: React.FC = () => {
     const updateData ={
       status:newStatus,
       token:authToken,
-      ticketId:ticketId
+      ticketId:ticketId,
+      reply :comment
     }
     try {
       setIsLoading(true);
@@ -402,14 +404,16 @@ const Tickets: React.FC = () => {
               )}
 
               {/* Comment/Reply Section */}
-              <div className="mb-6">
+                <div className="mb-6">
                 <h3 className="text-lg font-semibold text-gray-900 mb-3">Add Comment</h3>
                 <textarea
                   className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors resize-none"
                   rows={3}
                   placeholder="Add a comment or update..."
+                  value={comment}
+                  onChange={(e) => setComment(e.target.value)}
                 />
-              </div>
+                </div>
             </div>
             
             {/* Modal Footer */}
