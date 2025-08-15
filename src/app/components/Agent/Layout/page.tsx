@@ -39,7 +39,7 @@ const Layout = () => {
   };
   
   function Logout(): void {
-    router.push("/components/LoginPage/")
+    router.push("/components/login/")
     
   }
 
