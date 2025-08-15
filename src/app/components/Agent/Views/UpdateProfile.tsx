@@ -363,7 +363,7 @@ const UpdateProfile = () => {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-50 py-8 px-4">
+    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-slate-100 to-slate-200 py-8 px-4">
       {toast && (
         <Toast
           type={toast.type}
@@ -371,26 +371,26 @@ const UpdateProfile = () => {
           onClose={() => setToast(null)}
         />
       )}
-      
+
       <div className="max-w-6xl mx-auto">
         <div className="bg-white rounded-3xl shadow-2xl overflow-hidden border border-slate-200">
-          {/* Enhanced Header */}
-          <div className="bg-gradient-to-r from-blue-600 via-blue-700 to-indigo-700 px-8 py-8">
+          {/* Professional Header */}
+          <div className="bg-slate-100 px-8 py-8 border-b border-slate-200">
             <div className="flex items-center justify-between">
               <div>
-                <h1 className="text-4xl font-bold text-white mb-2">Profile Settings</h1>
-                <p className="text-blue-100 text-lg">Manage your personal information and account preferences</p>
+                <h1 className="text-4xl font-bold text-slate-800 mb-2">Profile Settings</h1>
+                <p className="text-slate-500 text-lg">Manage your personal information and account preferences</p>
               </div>
               {hasChanges && (
-                <div className="bg-white/20 backdrop-blur-sm px-4 py-2 rounded-full">
-                  <span className="text-white text-sm font-medium">Unsaved Changes</span>
+                <div className="bg-slate-200/60 px-4 py-2 rounded-full">
+                  <span className="text-slate-700 text-sm font-medium">Unsaved Changes</span>
                 </div>
               )}
             </div>
           </div>
 
           <div className="flex flex-col xl:flex-row min-h-[600px]">
-            {/* Enhanced Sidebar Navigation */}
+            {/* Sidebar Navigation */}
             <div className="xl:w-1/3 bg-slate-50/80 backdrop-blur-sm border-r border-slate-200">
               <nav className="p-6 space-y-2">
                 {sections.map((section) => {
@@ -401,17 +401,17 @@ const UpdateProfile = () => {
                       onClick={() => setActiveSection(section.id)}
                       className={`w-full group flex items-start space-x-4 px-5 py-4 rounded-xl text-left transition-all duration-200 ${
                         activeSection === section.id
-                          ? 'bg-blue-600 text-white shadow-lg shadow-blue-600/25 scale-[1.02]'
-                          : 'text-slate-700 hover:bg-white hover:shadow-md'
+                          ? 'bg-slate-200 text-slate-900 shadow-lg scale-[1.02]'
+                          : 'text-slate-700 hover:bg-slate-100 hover:shadow-md'
                       }`}
                     >
                       <Icon className={`h-6 w-6 mt-1 flex-shrink-0 ${
-                        activeSection === section.id ? 'text-white' : 'text-slate-500 group-hover:text-blue-600'
+                        activeSection === section.id ? 'text-slate-900' : 'text-slate-500 group-hover:text-slate-700'
                       }`} />
                       <div>
                         <span className="font-semibold text-lg block">{section.label}</span>
                         <span className={`text-sm ${
-                          activeSection === section.id ? 'text-blue-100' : 'text-slate-500'
+                          activeSection === section.id ? 'text-slate-600' : 'text-slate-500'
                         }`}>
                           {section.description}
                         </span>
@@ -422,14 +422,14 @@ const UpdateProfile = () => {
               </nav>
             </div>
 
-            {/* Enhanced Main Content */}
+            {/* Main Content */}
             <div className="xl:w-2/3 p-8">
               <div className="max-w-2xl">
                 <div className="mb-8">
                   <div className="flex items-center space-x-3 mb-6">
                     {sections.find(s => s.id === activeSection)?.icon && 
                       React.createElement(sections.find(s => s.id === activeSection)!.icon, {
-                        className: "w-8 h-8 text-blue-600"
+                        className: "w-8 h-8 text-slate-700"
                       })
                     }
                     <h2 className="text-3xl font-bold text-slate-800">
@@ -439,7 +439,7 @@ const UpdateProfile = () => {
                   {renderSection()}
                 </div>
 
-                {/* Enhanced Action Buttons */}
+                {/* Action Buttons */}
                 <div className="flex justify-between items-center pt-8 border-t-2 border-slate-100">
                   <div className="text-sm text-slate-500">
                     {hasChanges ? 'You have unsaved changes' : 'All changes saved'}
@@ -449,7 +449,7 @@ const UpdateProfile = () => {
                       type="button"
                       onClick={handleCancel}
                       disabled={!hasChanges}
-                      className="px-6 py-3 border-2 border-slate-300 rounded-xl text-slate-700 hover:bg-slate-50 transition-all duration-200 font-medium disabled:opacity-50 disabled:cursor-not-allowed"
+                      className="px-6 py-3 border-2 border-slate-300 rounded-xl text-slate-700 hover:bg-slate-100 transition-all duration-200 font-medium disabled:opacity-50 disabled:cursor-not-allowed"
                     >
                       Cancel
                     </button>
@@ -457,7 +457,7 @@ const UpdateProfile = () => {
                       type="button"
                       onClick={handleSubmit}
                       disabled={!hasChanges || isSaving}
-                      className="px-8 py-3 bg-gradient-to-r from-blue-600 to-indigo-600 text-white rounded-xl hover:from-blue-700 hover:to-indigo-700 transition-all duration-200 flex items-center space-x-2 font-medium shadow-lg hover:shadow-xl disabled:opacity-50 disabled:cursor-not-allowed transform hover:scale-[1.02]"
+                      className="px-8 py-3 bg-slate-700 text-white rounded-xl hover:bg-slate-800 transition-all duration-200 flex items-center space-x-2 font-medium shadow-lg hover:shadow-xl disabled:opacity-50 disabled:cursor-not-allowed transform hover:scale-[1.02]"
                     >
                       {isSaving ? (
                         <>
