@@ -475,7 +475,6 @@ const Tickets: React.FC = () => {
                     <div className="flex items-center gap-3">
                       {(() => {
                         const statusConfig = getStatusConfig(selectedTicket.status);
-                        const priorityConfig = getPriorityConfig(selectedTicket.priority);
                         const StatusIcon = statusConfig.icon;
                         return (
                           <>
