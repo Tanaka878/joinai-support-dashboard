@@ -1,6 +1,6 @@
 'use client'
 import React, { useEffect, useState } from "react";
-import { Search, Filter, Clock, User, Tag, AlertCircle, CheckCircle, XCircle, Eye, MessageSquare, Paperclip, Calendar, Hash, Loader2, X } from "lucide-react";
+import { Search, Filter, Clock, Tag, AlertCircle, CheckCircle, XCircle, Eye, MessageSquare, Paperclip, Calendar, Hash, Loader2, X } from "lucide-react";
 import BASE_URL from "@/app/config/api/api";
 import TicketFilter from "./TicketFilter";
 
@@ -14,7 +14,6 @@ type Ticket = {
   attachments: string[];
   launchTimestamp: string;
   updatedAt: string;
-  assignedTo?: string;
 };
 
 type TicketStats = {
@@ -73,6 +72,7 @@ const Tickets: React.FC = () => {
   const [authToken, setAuthToken] = useState("")
   const [comment, setComment] = useState("");
   const [toast, setToast] = useState<{ type: 'success' | 'error' | 'info'; message: string } | null>(null);
+  
 
   const showToast = (type: 'success' | 'error' | 'info', message: string) => {
     setToast({ type, message });
@@ -399,13 +399,7 @@ const Tickets: React.FC = () => {
                             <span className="font-medium">Created:</span>
                             <span>{formatDate(ticket.launchTimestamp)}</span>
                           </div>
-                          <div className="flex items-center space-x-2 text-slate-600">
-                            <User className="w-4 h-4 text-slate-400" />
-                            <span className="font-medium">Assigned:</span>
-                            <span className="bg-slate-100 px-2 py-1 rounded-md font-medium">
-                              {ticket.assignedTo || "Unassigned"}
-                            </span>
-                          </div>
+                         
                           <div className="flex items-center space-x-2 text-slate-600">
                             <Hash className="w-4 h-4 text-slate-400" />
                             <span className="font-medium">ID:</span>
@@ -527,13 +521,8 @@ const Tickets: React.FC = () => {
                       </p>
                     </div>
                     <div className="space-y-1">
-                      <div className="flex items-center space-x-2 text-slate-500 text-sm font-medium">
-                        <User className="w-4 h-4" />
-                        <span>Assigned To</span>
-                      </div>
-                      <p className="bg-white px-3 py-2 rounded-lg border font-medium">
-                        {selectedTicket.assignedTo || "Unassigned"}
-                      </p>
+                      
+                     
                     </div>
                     <div className="space-y-1">
                       <div className="flex items-center space-x-2 text-slate-500 text-sm font-medium">
