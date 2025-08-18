@@ -1,6 +1,6 @@
 'use client'
 import React, { useEffect, useState } from "react";
-import { Search, Filter, Clock, Tag, AlertCircle, CheckCircle, XCircle, Eye, MessageSquare, Paperclip, Calendar, Hash, Loader2, X } from "lucide-react";
+import { Search, Filter, Clock, Tag, AlertCircle, CheckCircle, XCircle, Eye, MessageSquare, Paperclip, Calendar, Hash, Loader2, X, User } from "lucide-react";
 import BASE_URL from "@/app/config/api/api";
 import TicketFilter from "./TicketFilter";
 
@@ -14,6 +14,7 @@ type Ticket = {
   attachments: string[];
   launchTimestamp: string;
   updatedAt: string;
+   replies: string[];  
 };
 
 type TicketStats = {
@@ -556,6 +557,41 @@ const Tickets: React.FC = () => {
                       </p>
                     </div>
                   </div>
+
+                  {/* Replies Section */}
+                  {selectedTicket.replies && selectedTicket.replies.length > 0 && (
+                    <div className="mb-6">
+                      <h3 className="flex items-center space-x-2 text-xl font-bold text-slate-800 mb-4">
+                        <MessageSquare className="w-6 h-6 text-blue-600" />
+                        <span>Replies ({selectedTicket.replies.length})</span>
+                      </h3>
+                      <div className="space-y-4">
+                        {selectedTicket.replies.map((reply, index) => (
+                          <div 
+                            key={index}
+                            className="bg-slate-50 border-2 border-slate-200 p-6 rounded-2xl"
+                          >
+                            <div className="flex items-start space-x-3">
+                              <div className="flex-shrink-0">
+                                <div className="w-8 h-8 bg-blue-100 rounded-full flex items-center justify-center">
+                                  <User className="w-4 h-4 text-blue-600" />
+                                </div>
+                              </div>
+                              <div className="flex-1 min-w-0">
+                                <div className="flex items-center space-x-2 mb-2">
+                                  <span className="text-sm font-semibold text-slate-800">Support Agent</span>
+                                  <span className="text-xs text-slate-500">#{index + 1}</span>
+                                </div>
+                                <p className="text-slate-700 whitespace-pre-wrap leading-relaxed">
+                                  {reply}
+                                </p>
+                              </div>
+                            </div>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  )}
                   
                   {/* Attachments Section */}
                   {selectedTicket.attachments && selectedTicket.attachments.length > 0 && (
@@ -589,49 +625,50 @@ const Tickets: React.FC = () => {
               </div>
               
               {/* Modal Footer */}
-              <div className="bg-slate-50 border-t-2 border-slate-200 p-6">
-                <div className="flex flex-col sm:flex-row justify-between items-center gap-4">
-                  <div className="flex gap-3">
-                    {(selectedTicket.status === "NEW" || selectedTicket.status === "OPEN") && (
-                      <button
-                        className="flex items-center space-x-2 px-6 py-3 bg-emerald-600 hover:bg-emerald-700 text-white rounded-xl transition-all duration-200 font-medium shadow-md hover:shadow-lg transform hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed"
-                        onClick={() => resolveTicket(selectedTicket.id)}
-                        disabled={isUpdating}
-                      >
-                        {isUpdating ? (
-                          <Loader2 className="w-5 h-5 animate-spin" />
-                        ) : (
-                          <CheckCircle className="w-5 h-5" />
-                        )}
-                        <span>Resolve Ticket</span>
-                      </button>
-                    )}
+                            {/* Modal Footer - Enhanced with Fixed Positioning */}
+                <div className="bg-slate-50 border-t-2 border-slate-200 p-6 sticky bottom-0">
+                  <div className="flex flex-col sm:flex-row justify-between items-center gap-4">
+                    <div className="flex flex-wrap gap-3 w-full sm:w-auto">
+                      {(selectedTicket.status === "NEW" || selectedTicket.status === "OPEN") && (
+                        <button
+                          className="flex items-center justify-center space-x-2 px-6 py-3 bg-emerald-600 hover:bg-emerald-700 text-white rounded-xl transition-all duration-200 font-medium shadow-md hover:shadow-lg transform hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed flex-1 sm:flex-initial min-w-[140px]"
+                          onClick={() => resolveTicket(selectedTicket.id)}
+                          disabled={isUpdating}
+                        >
+                          {isUpdating ? (
+                            <Loader2 className="w-5 h-5 animate-spin" />
+                          ) : (
+                            <CheckCircle className="w-5 h-5" />
+                          )}
+                          <span>Resolve Ticket</span>
+                        </button>
+                      )}
+                      
+                      {selectedTicket.status === "CLOSED" && (
+                        <button
+                          className="flex items-center justify-center space-x-2 px-6 py-3 bg-amber-600 hover:bg-amber-700 text-white rounded-xl transition-all duration-200 font-medium shadow-md hover:shadow-lg transform hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed flex-1 sm:flex-initial min-w-[140px]"
+                          onClick={() => reopenTicket(selectedTicket.id)}
+                          disabled={isUpdating}
+                        >
+                          {isUpdating ? (
+                            <Loader2 className="w-5 h-5 animate-spin" />
+                          ) : (
+                            <XCircle className="w-5 h-5" />
+                          )}
+                          <span>Reopen Ticket</span>
+                        </button>
+                      )}
+                    </div>
                     
-                    {selectedTicket.status === "CLOSED" && (
-                      <button
-                        className="flex items-center space-x-2 px-6 py-3 bg-amber-600 hover:bg-amber-700 text-white rounded-xl transition-all duration-200 font-medium shadow-md hover:shadow-lg transform hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed"
-                        onClick={() => reopenTicket(selectedTicket.id)}
-                        disabled={isUpdating}
-                      >
-                        {isUpdating ? (
-                          <Loader2 className="w-5 h-5 animate-spin" />
-                        ) : (
-                          <XCircle className="w-5 h-5" />
-                        )}
-                        <span>Reopen Ticket</span>
-                      </button>
-                    )}
+                    <button
+                      className="px-6 py-3 bg-slate-600 hover:bg-slate-700 text-white rounded-xl transition-all duration-200 font-medium shadow-md hover:shadow-lg min-w-[100px]"
+                      onClick={closeModal}
+                      disabled={isUpdating}
+                    >
+                      Close
+                    </button>
                   </div>
-                  
-                  <button
-                    className="px-6 py-3 bg-slate-600 hover:bg-slate-700 text-white rounded-xl transition-all duration-200 font-medium shadow-md hover:shadow-lg"
-                    onClick={closeModal}
-                    disabled={isUpdating}
-                  >
-                    Close
-                  </button>
                 </div>
-              </div>
             </div>
           </div>
         )}
