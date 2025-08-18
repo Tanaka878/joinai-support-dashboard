@@ -82,11 +82,13 @@ const Tickets: React.FC = () => {
   const fetchTickets = async () => {
     setIsLoading(true);
     try {
-      const response = await fetch(`${BASE_URL}/admin/getAll`, {
-        method: "GET",
+      const email = localStorage.getItem("email") ?? "";
+      const response = await fetch(`${BASE_URL}/ticket/getMyTickets`, {
+        method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
+        body: JSON.stringify({ email }),
       });
       if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`);
